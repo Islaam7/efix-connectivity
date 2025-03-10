@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 type SearchBarProps = {
   placeholder?: string;
@@ -11,11 +12,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Search for a service...", 
   onSearch 
 }) => {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onSearch) onSearch(query);
+    
+    if (query.trim()) {
+      if (onSearch) {
+        onSearch(query);
+      } else {
+        // Default behavior: navigate to search results
+        navigate(`/services?search=${encodeURIComponent(query)}`);
+      }
+    }
   };
 
   return (

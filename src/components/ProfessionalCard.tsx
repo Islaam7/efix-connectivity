@@ -1,6 +1,9 @@
 
 import React from 'react';
 import { Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export type ProfessionalProps = {
   id: string;
@@ -14,6 +17,7 @@ export type ProfessionalProps = {
 };
 
 const ProfessionalCard: React.FC<ProfessionalProps> = ({
+  id,
   name,
   specialty,
   rating,
@@ -22,6 +26,25 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
   image,
   onClick,
 }) => {
+  const navigate = useNavigate();
+
+  const handleViewProfile = () => {
+    navigate(`/professionals/${id}`);
+    // If we don't have the profile page yet, show a toast
+    toast.info(`Viewing ${name}'s profile`);
+  };
+
+  const handleBookNow = () => {
+    if (!available) {
+      toast.error(`${name} is currently not available for booking`);
+      return;
+    }
+    
+    navigate(`/bookings/new?professionalId=${id}`);
+    // If we don't have the booking page yet, show a toast
+    toast.success(`Booking initiated with ${name}`);
+  };
+
   return (
     <div 
       className="professional-card flex flex-col"
@@ -62,12 +85,27 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
       </div>
       
       <div className="flex space-x-2 mt-4">
-        <button className="flex-1 py-2 text-sm border border-efix-primary text-efix-primary rounded-lg">
+        <Button 
+          variant="outline" 
+          className="flex-1" 
+          onClick={(e) => {
+            e.stopPropagation();
+            handleViewProfile();
+          }}
+        >
           View Profile
-        </button>
-        <button className="flex-1 py-2 text-sm bg-efix-primary text-white rounded-lg">
+        </Button>
+        <Button 
+          variant={available ? "default" : "secondary"}
+          className="flex-1" 
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBookNow();
+          }}
+          disabled={!available}
+        >
           Book Now
-        </button>
+        </Button>
       </div>
     </div>
   );

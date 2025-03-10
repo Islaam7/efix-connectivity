@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ServiceCategory from '@/components/ServiceCategory';
@@ -9,6 +10,16 @@ import { serviceCategories, professionals } from '@/data/mockData';
 import { ArrowRight } from 'lucide-react';
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  const handleViewAllServices = () => {
+    navigate('/services');
+  };
+
+  const handleViewAllProfessionals = () => {
+    navigate('/services');
+  };
+
   return (
     <div className="min-h-screen bg-efix-background-light dark:bg-efix-background-dark pb-16">
       <Header />
@@ -20,7 +31,10 @@ const Index = () => {
         <section className="px-4 py-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Service Categories</h2>
-            <button className="text-efix-primary text-sm font-medium flex items-center">
+            <button 
+              className="text-efix-primary text-sm font-medium flex items-center"
+              onClick={handleViewAllServices}
+            >
               View All
               <ArrowRight className="w-4 h-4 ml-1" />
             </button>
@@ -34,7 +48,7 @@ const Index = () => {
                 icon={category.icon}
                 description={category.description}
                 color={category.color}
-                onClick={() => console.log(`Clicked on ${category.title}`)}
+                onClick={() => navigate(`/services?category=${category.id}`)}
               />
             ))}
           </div>
@@ -44,7 +58,10 @@ const Index = () => {
         <section className="px-4 py-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Top Professionals</h2>
-            <button className="text-efix-primary text-sm font-medium flex items-center">
+            <button 
+              className="text-efix-primary text-sm font-medium flex items-center"
+              onClick={handleViewAllProfessionals}
+            >
               View All
               <ArrowRight className="w-4 h-4 ml-1" />
             </button>
@@ -55,7 +72,7 @@ const Index = () => {
               <ProfessionalCard
                 key={professional.id}
                 {...professional}
-                onClick={() => console.log(`Clicked on ${professional.name}`)}
+                onClick={() => navigate(`/professionals/${professional.id}`)}
               />
             ))}
           </div>

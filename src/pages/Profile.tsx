@@ -1,10 +1,41 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
-import { Settings, LogOut, CreditCard, Bell, Shield, HelpCircle, Star } from 'lucide-react';
+import { Settings, LogOut, CreditCard, Bell, Shield, HelpCircle, Star, Moon, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Profile = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  // Check the user's preferred theme on component mount
+  useEffect(() => {
+    if (document.documentElement.classList.contains('dark')) {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('dark');
+      setTheme('dark');
+      localStorage.setItem('theme', 'dark');
+      toast.success('Dark mode enabled');
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme('light');
+      localStorage.setItem('theme', 'light');
+      toast.success('Light mode enabled');
+    }
+  };
+
+  const handleLogout = () => {
+    toast.info('Logged out successfully');
+  };
+
   return (
     <div className="min-h-screen bg-efix-background-light dark:bg-efix-background-dark pb-16">
       <Header />
@@ -21,9 +52,9 @@ const Profile = () => {
             </div>
             <h1 className="text-xl font-bold">John Doe</h1>
             <p className="text-gray-500 dark:text-gray-400">john.doe@example.com</p>
-            <button className="mt-3 px-4 py-2 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <Button variant="outline" className="mt-3">
               Edit Profile
-            </button>
+            </Button>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
@@ -94,6 +125,24 @@ const Profile = () => {
                     &rsaquo;
                   </div>
                 </div>
+                
+                <div className="flex items-center cursor-pointer" onClick={toggleTheme}>
+                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3">
+                    {theme === 'light' ? (
+                      <Moon className="w-4 h-4 text-efix-primary" />
+                    ) : (
+                      <Sun className="w-4 h-4 text-efix-primary" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium">
+                      {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                    </h3>
+                  </div>
+                  <div className="text-gray-400">
+                    &rsaquo;
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -112,7 +161,10 @@ const Profile = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center text-red-500">
+                <div 
+                  className="flex items-center text-red-500 cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center mr-3">
                     <LogOut className="w-4 h-4" />
                   </div>
