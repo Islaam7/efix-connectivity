@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ServiceCategory from '@/components/ServiceCategory';
 import ProfessionalCard from '@/components/ProfessionalCard';
-import HowItWorks from '@/components/HowItWorks';
 import BottomNavigation from '@/components/BottomNavigation';
 import { serviceCategories, professionals } from '@/data/mockData';
 import { ArrowRight } from 'lucide-react';
@@ -60,18 +59,6 @@ const Index = () => {
               />
             ))}
           </div>
-        </section>
-        
-        {/* How It Works */}
-        <HowItWorks />
-        
-        {/* CTA Section */}
-        <section className="m-4 p-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl text-white text-center">
-          <h2 className="text-xl font-bold mb-2">Ready to get started?</h2>
-          <p className="mb-4 text-blue-100">Book your service with top professionals today</p>
-          <button className="bg-white text-blue-600 font-medium py-2 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            Book Now
-          </button>
         </section>
       </main>
       
