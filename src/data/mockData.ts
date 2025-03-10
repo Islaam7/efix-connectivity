@@ -1,5 +1,5 @@
 
-import { Droplets, Zap, Tool, Paintbrush, Thermometer } from 'lucide-react';
+import { Droplets, Zap, Wrench, Paintbrush, Thermometer } from 'lucide-react';
 import React from 'react';
 
 export const serviceCategories = [
@@ -20,7 +20,7 @@ export const serviceCategories = [
   {
     id: '3',
     title: 'Handyman',
-    icon: React.createElement(Tool),
+    icon: React.createElement(Wrench),
     description: 'General repairs and maintenance',
     color: '#EC4899' // Pink/Purple
   },
