@@ -10,7 +10,7 @@ const Messages = () => {
     {
       id: '1',
       name: 'John Smith',
-      lastMessage: 'I'll be there in 10 minutes',
+      lastMessage: "I'll be there in 10 minutes",
       time: '10:25 AM',
       unread: 2,
       image: 'https://randomuser.me/api/portraits/men/1.jpg'
