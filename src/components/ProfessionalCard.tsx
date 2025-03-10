@@ -28,30 +28,28 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleViewProfile = () => {
+  const handleViewProfile = (e: React.MouseEvent) => {
+    e.stopPropagation();
     navigate(`/professionals/${id}`);
-    // If we don't have the profile page yet, show a toast
-    toast.info(`Viewing ${name}'s profile`);
   };
 
-  const handleBookNow = () => {
+  const handleBookNow = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!available) {
       toast.error(`${name} is currently not available for booking`);
       return;
     }
     
     navigate(`/bookings/new?professionalId=${id}`);
-    // If we don't have the booking page yet, show a toast
-    toast.success(`Booking initiated with ${name}`);
   };
 
   return (
     <div 
-      className="professional-card flex flex-col"
+      className="professional-card bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-transparent hover:border-blue-100 dark:hover:border-gray-700"
       onClick={onClick}
     >
-      <div className="flex items-start space-x-3">
-        <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+      <div className="flex items-start space-x-3 mb-3">
+        <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-blue-100 dark:border-blue-900">
           <img 
             src={image} 
             alt={name} 
@@ -75,7 +73,7 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
           <span 
             className={`text-xs font-medium px-2 py-1 rounded-full ${
               available 
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
                 : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
             }`}
           >
@@ -84,24 +82,18 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
         </div>
       </div>
       
-      <div className="flex space-x-2 mt-4">
+      <div className="flex space-x-2">
         <Button 
           variant="outline" 
-          className="flex-1" 
-          onClick={(e) => {
-            e.stopPropagation();
-            handleViewProfile();
-          }}
+          className="flex-1 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" 
+          onClick={handleViewProfile}
         >
           View Profile
         </Button>
         <Button 
           variant={available ? "default" : "secondary"}
-          className="flex-1" 
-          onClick={(e) => {
-            e.stopPropagation();
-            handleBookNow();
-          }}
+          className={`flex-1 ${available ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700' : ''}`}
+          onClick={handleBookNow}
           disabled={!available}
         >
           Book Now

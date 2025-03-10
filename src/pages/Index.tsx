@@ -21,18 +21,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-efix-background-light dark:bg-efix-background-dark pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
       <Header />
       
       <main className="container mx-auto max-w-lg">
         <HeroSection />
         
         {/* Service Categories */}
-        <section className="px-4 py-4">
+        <section className="px-4 py-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Service Categories</h2>
+            <h2 className="text-xl font-bold">Service Categories</h2>
             <button 
-              className="text-efix-primary text-sm font-medium flex items-center"
+              className="text-blue-600 text-sm font-medium flex items-center hover:text-blue-700 transition-colors"
               onClick={handleViewAllServices}
             >
               View All
@@ -40,7 +40,7 @@ const Index = () => {
             </button>
           </div>
           
-          <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4">
+          <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-none">
             {serviceCategories.map((category) => (
               <ServiceCategory
                 key={category.id}
@@ -57,9 +57,9 @@ const Index = () => {
         {/* Top Professionals */}
         <section className="px-4 py-4">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Top Professionals</h2>
+            <h2 className="text-xl font-bold">Top Professionals</h2>
             <button 
-              className="text-efix-primary text-sm font-medium flex items-center"
+              className="text-blue-600 text-sm font-medium flex items-center hover:text-blue-700 transition-colors"
               onClick={handleViewAllProfessionals}
             >
               View All
@@ -68,7 +68,7 @@ const Index = () => {
           </div>
           
           <div className="space-y-4">
-            {professionals.map((professional) => (
+            {professionals.slice(0, 3).map((professional) => (
               <ProfessionalCard
                 key={professional.id}
                 {...professional}
