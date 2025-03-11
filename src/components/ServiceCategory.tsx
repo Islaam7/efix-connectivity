@@ -29,8 +29,8 @@ const ServiceCategory: React.FC<ServiceCategoryProps> = ({
 
   return (
     <div 
-      className="service-card min-w-[200px] flex flex-col bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all duration-200 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700"
-      onClick={onClick || handleViewService}
+      className="service-card min-w-[200px] flex flex-col bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all duration-200 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700 cursor-pointer"
+      onClick={handleViewService}
       style={{ borderTopColor: color, borderTopWidth: '4px' }}
     >
       <div className="flex justify-between items-start mb-2">
@@ -49,7 +49,6 @@ const ServiceCategory: React.FC<ServiceCategoryProps> = ({
       <div 
         className="flex items-center text-sm font-medium cursor-pointer"
         style={{ color }}
-        onClick={handleViewService}
       >
         <span>View Service</span>
         <ChevronRight className="w-4 h-4 ml-1" />

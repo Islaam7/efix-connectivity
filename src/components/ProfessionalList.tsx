@@ -4,7 +4,6 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { professionals, serviceCategories } from '@/data/mockData';
 import ProfessionalCard from './ProfessionalCard';
 import { ArrowLeft } from 'lucide-react';
-import BottomNavigation from './BottomNavigation';
 
 type ProfessionalListProps = {
   serviceId?: string;
@@ -36,7 +35,7 @@ const ProfessionalList: React.FC<ProfessionalListProps> = ({
     : title;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800">
       <div className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="container mx-auto max-w-lg px-4 py-3 flex items-center">
           <button 
@@ -95,8 +94,6 @@ const ProfessionalList: React.FC<ProfessionalListProps> = ({
           )}
         </div>
       </main>
-      
-      <BottomNavigation />
     </div>
   );
 };

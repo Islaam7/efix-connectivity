@@ -1,11 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, MapPin, CreditCard, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { professionals } from '@/data/mockData';
 import { toast } from 'sonner';
-import BottomNavigation from '@/components/BottomNavigation';
 
 const BookingNew = () => {
   const navigate = useNavigate();
@@ -256,7 +254,7 @@ const BookingNew = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800">
       {/* Custom header */}
       <div className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto max-w-lg px-4 py-3 flex items-center">
@@ -270,7 +268,7 @@ const BookingNew = () => {
         </div>
       </div>
       
-      <main className="container mx-auto max-w-lg p-4">
+      <main className="container mx-auto max-w-lg p-4 pb-8">
         {professional ? (
           <>
             {renderStepIndicator()}
@@ -296,8 +294,6 @@ const BookingNew = () => {
           </div>
         )}
       </main>
-      
-      <BottomNavigation />
     </div>
   );
 };

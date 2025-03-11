@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import BottomNavigation from '@/components/BottomNavigation';
 import { professionals } from '@/data/mockData';
 import { Star, MapPin, Calendar, Clock, Award, MessageSquare, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -37,7 +35,7 @@ const ProfessionalProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800">
       {/* Custom header for this page */}
       <div className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto max-w-lg px-4 py-3 flex items-center">
@@ -148,7 +146,7 @@ const ProfessionalProfile = () => {
         </div>
         
         {/* Reviews Section */}
-        <div className="px-4 py-4">
+        <div className="px-4 py-4 pb-8">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-xl font-semibold">Reviews</h2>
             <button className="text-blue-500 text-sm font-medium">See All</button>
@@ -207,8 +205,6 @@ const ProfessionalProfile = () => {
           </div>
         </div>
       </main>
-      
-      <BottomNavigation />
     </div>
   );
 };
