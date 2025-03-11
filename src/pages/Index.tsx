@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import ServiceCategory from '@/components/ServiceCategory';
 import ProfessionalCard from '@/components/ProfessionalCard';
 import BottomNavigation from '@/components/BottomNavigation';
+import FaultDetection from '@/components/FaultDetection';
 import { serviceCategories, professionals } from '@/data/mockData';
 import { ArrowRight } from 'lucide-react';
 
@@ -53,6 +54,9 @@ const Index = () => {
             ))}
           </div>
         </section>
+        
+        {/* Fault Detection Section */}
+        <FaultDetection />
         
         {/* Top Professionals */}
         <section className="px-4 py-4">

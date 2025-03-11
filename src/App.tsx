@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import ProfessionalProfile from "./pages/ProfessionalProfile";
 import NotFound from "./pages/NotFound";
 import ProfessionalList from "./components/ProfessionalList";
+import ChatbotButton from "./components/ChatbotButton";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ChatbotButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
