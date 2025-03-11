@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, X } from 'lucide-react';
+import { Send, X, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 type Message = {
