@@ -33,8 +33,9 @@ const Header = () => {
     <header className="bg-white dark:bg-gray-900 p-4 shadow-sm">
       <div className="container mx-auto max-w-lg flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold mb-1 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Hi there! 👋
+          <h1 className="text-2xl font-bold mb-1">
+            <span className="text-blue-600">Hi there!</span> 
+            <span className="ml-2 text-yellow-500">👋</span>
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm">Welcome to eFix</p>
         </div>

@@ -9,7 +9,7 @@ const HeroSection = () => {
       {/* Glass-effect SearchBar */}
       <div className="absolute top-4 left-0 right-0 z-10 px-4">
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-full shadow-lg p-1">
-          <SearchBar />
+          <SearchBar placeholder="Search for services or professionals..." />
         </div>
       </div>
       

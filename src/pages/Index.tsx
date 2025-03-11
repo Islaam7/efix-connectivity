@@ -17,7 +17,7 @@ const Index = () => {
   };
 
   const handleViewAllProfessionals = () => {
-    navigate('/services');
+    navigate('/professionals');
   };
 
   return (
@@ -44,11 +44,11 @@ const Index = () => {
             {serviceCategories.map((category) => (
               <ServiceCategory
                 key={category.id}
+                id={category.id}
                 title={category.title}
                 icon={category.icon}
                 description={category.description}
                 color={category.color}
-                onClick={() => navigate(`/services?category=${category.id}`)}
               />
             ))}
           </div>

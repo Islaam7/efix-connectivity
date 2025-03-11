@@ -12,6 +12,7 @@ import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import ProfessionalProfile from "./pages/ProfessionalProfile";
 import NotFound from "./pages/NotFound";
+import ProfessionalList from "./components/ProfessionalList";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceId/professionals" element={<ProfessionalList />} />
+          <Route path="/professionals" element={<ProfessionalList title="All Professionals" showAllProfessionals={true} />} />
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/bookings/new" element={<BookingNew />} />
           <Route path="/messages" element={<Messages />} />

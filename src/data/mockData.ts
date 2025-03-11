@@ -4,35 +4,35 @@ import React from 'react';
 
 export const serviceCategories = [
   {
-    id: '1',
+    id: 'plumbing',
     title: 'Plumbing',
     icon: React.createElement(Droplets),
     description: 'Fix leaks, drains, and installations',
     color: '#3B82F6' // Blue
   },
   {
-    id: '2',
+    id: 'electrical',
     title: 'Electrical',
     icon: React.createElement(Zap),
     description: 'Wiring, fixtures, and installations',
     color: '#F59E0B' // Amber/Yellow
   },
   {
-    id: '3',
+    id: 'handyman',
     title: 'Handyman',
     icon: React.createElement(Wrench),
     description: 'General repairs and maintenance',
     color: '#EC4899' // Pink/Purple
   },
   {
-    id: '4',
+    id: 'painting',
     title: 'Painting',
     icon: React.createElement(Paintbrush),
     description: 'Interior and exterior painting',
     color: '#10B981' // Green
   },
   {
-    id: '5',
+    id: 'hvac',
     title: 'HVAC',
     icon: React.createElement(Thermometer),
     description: 'Heating, cooling, and ventilation',
@@ -48,7 +48,8 @@ export const professionals = [
     rating: 4.8,
     price: 45,
     available: true,
-    image: 'https://randomuser.me/api/portraits/men/1.jpg'
+    image: 'https://randomuser.me/api/portraits/men/1.jpg',
+    serviceId: 'plumbing'
   },
   {
     id: '2',
@@ -57,7 +58,8 @@ export const professionals = [
     rating: 4.9,
     price: 50,
     available: true,
-    image: 'https://randomuser.me/api/portraits/women/1.jpg'
+    image: 'https://randomuser.me/api/portraits/women/1.jpg',
+    serviceId: 'electrical'
   },
   {
     id: '3',
@@ -66,7 +68,8 @@ export const professionals = [
     rating: 4.7,
     price: 35,
     available: false,
-    image: 'https://randomuser.me/api/portraits/men/2.jpg'
+    image: 'https://randomuser.me/api/portraits/men/2.jpg',
+    serviceId: 'handyman'
   },
   {
     id: '4',
@@ -75,6 +78,7 @@ export const professionals = [
     rating: 4.6,
     price: 55,
     available: true,
-    image: 'https://randomuser.me/api/portraits/women/2.jpg'
+    image: 'https://randomuser.me/api/portraits/women/2.jpg',
+    serviceId: 'hvac'
   }
 ];
