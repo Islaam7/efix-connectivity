@@ -4,8 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import BottomNavigation from '@/components/BottomNavigation';
 import SearchBar from '@/components/SearchBar';
 import { serviceCategories } from '@/data/mockData';
-import { Filter, ArrowLeft, X } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ServiceCategory from '@/components/ServiceCategory';
 
 const Services = () => {
   const navigate = useNavigate();
@@ -46,16 +47,10 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
-      {/* Custom header for this page */}
+      {/* Custom header for this page, now without back button */}
       <div className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="container mx-auto max-w-lg px-4 py-3 flex items-center">
-          <button 
-            onClick={() => navigate('/')}
-            className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <h1 className="text-lg font-bold ml-2">Services</h1>
+          <h1 className="text-lg font-bold">Services</h1>
         </div>
       </div>
       
@@ -206,30 +201,19 @@ const Services = () => {
             </div>
           )}
           
-          <div className="space-y-4 mt-6">
+          <div className="grid grid-cols-1 gap-4 mt-6">
             {serviceCategories
               .filter(category => selectedCategories.length === 0 || selectedCategories.includes(category.id))
               .filter(category => !searchParam || category.title.toLowerCase().includes(searchParam.toLowerCase()))
               .map((category) => (
-                <div 
+                <ServiceCategory 
                   key={category.id}
-                  className="flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all duration-200 border border-transparent hover:border-blue-100 dark:hover:border-gray-700"
-                  onClick={() => navigate(`/services?category=${category.id}`)}
-                >
-                  <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center mr-4" 
-                    style={{ backgroundColor: `${category.color}20` }}
-                  >
-                    {category.icon}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{category.title}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{category.description}</p>
-                  </div>
-                  <div className="text-sm font-medium bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg">
-                    $25-$75/hr
-                  </div>
-                </div>
+                  id={category.id}
+                  title={category.title}
+                  icon={category.icon}
+                  description={category.description}
+                  color={category.color}
+                />
               ))}
               
             {serviceCategories

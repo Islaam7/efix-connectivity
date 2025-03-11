@@ -22,36 +22,46 @@ const ServiceCategory: React.FC<ServiceCategoryProps> = ({
 }) => {
   const navigate = useNavigate();
   
-  const handleViewService = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClick = () => {
     navigate(`/services/${id}/professionals`);
   };
 
   return (
     <div 
-      className="service-card min-w-[200px] flex flex-col bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all duration-200 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700 cursor-pointer"
-      onClick={handleViewService}
-      style={{ borderTopColor: color, borderTopWidth: '4px' }}
+      className="service-card flex bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all duration-200 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700 cursor-pointer"
+      onClick={onClick || handleClick}
+      style={{ borderLeftColor: color, borderLeftWidth: '4px' }}
     >
-      <div className="flex justify-between items-start mb-2">
-        <div 
-          className="w-10 h-10 rounded-full flex items-center justify-center" 
-          style={{ backgroundColor: `${color}20` }}
-        >
-          {icon}
-        </div>
-        <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: `${color}15`, color }}>
-          Available
-        </span>
-      </div>
-      <h3 className="font-semibold text-lg mb-1">{title}</h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 flex-grow">{description}</p>
       <div 
-        className="flex items-center text-sm font-medium cursor-pointer"
-        style={{ color }}
+        className="w-12 h-12 rounded-full flex items-center justify-center mr-4" 
+        style={{ backgroundColor: `${color}20` }}
       >
-        <span>View Service</span>
-        <ChevronRight className="w-4 h-4 ml-1" />
+        {icon}
+      </div>
+      
+      <div className="flex-1">
+        <div className="flex justify-between items-start mb-1">
+          <h3 className="font-semibold text-lg">{title}</h3>
+          <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: `${color}15`, color }}>
+            Available
+          </span>
+        </div>
+        
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{description}</p>
+        
+        <div className="flex justify-between items-center">
+          <div 
+            className="flex items-center text-sm font-medium"
+            style={{ color }}
+          >
+            <span>View Professionals</span>
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </div>
+          
+          <div className="text-sm font-medium">
+            $25-$75/hr
+          </div>
+        </div>
       </div>
     </div>
   );
