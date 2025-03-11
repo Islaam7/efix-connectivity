@@ -43,7 +43,7 @@ const FaultDetection = () => {
 
   const analyzeIssue = () => {
     if (!description.trim()) {
-      toast.error('الرجاء وصف المشكلة');
+      toast.error('Please describe the issue');
       return;
     }
 
@@ -53,10 +53,10 @@ const FaultDetection = () => {
     // Simulate AI analysis with a timeout
     setTimeout(() => {
       const responses = [
-        'بناءً على الوصف، قد تكون المشكلة متعلقة بتسرب في الأنابيب. نوصي بإغلاق صمام المياه الرئيسي والاتصال بسباك متخصص. في حالات التسرب البسيطة، يمكن استخدام شريط العزل المؤقت حتى وصول الفني.',
-        'يبدو أن المشكلة قد تكون في نظام التبريد. تحقق من تنظيف المرشحات (الفلاتر) أولاً، وتأكد من عدم وجود انسداد في مجرى الهواء. إذا استمرت المشكلة، فقد تحتاج إلى فحص مستوى غاز التبريد.',
-        'من المحتمل أن تكون مشكلة كهربائية. قبل أي إجراء، تحقق من قاطع الدائرة (الفيوز). لا تحاول إصلاح المشكلات الكهربائية بنفسك إذا لم تكن لديك خبرة كافية، فقد يكون ذلك خطيرًا.',
-        'المشكلة قد تكون بسبب انسداد في التصريف. يمكنك تجربة استخدام منظف مصارف متوفر تجاريًا أو محلول من صودا الخبز والخل. إذا كان الانسداد شديدًا، نوصي بالاستعانة بفني متخصص.',
+        'Based on your description, the issue might be related to a pipe leak. We recommend shutting off the main water valve and contacting a specialized plumber. For minor leaks, you can use temporary sealing tape until a technician arrives.',
+        'The problem seems to be with the cooling system. First check that the filters are clean and ensure there is no blockage in the air flow. If the problem persists, you may need to check the refrigerant level.',
+        'This is likely an electrical issue. Before taking any action, check the circuit breaker. Do not attempt to fix electrical problems yourself if you lack sufficient experience as it can be dangerous.',
+        'The problem may be due to a drainage blockage. You can try using a commercially available drain cleaner or a solution of baking soda and vinegar. If the blockage is severe, we recommend consulting a specialized technician.',
       ];
 
       // Select a random response from the array
@@ -68,9 +68,9 @@ const FaultDetection = () => {
 
   return (
     <section className="px-4 py-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-xl mb-6">
-      <h2 className="text-xl font-bold mb-2">كشف الأعطال بالذكاء الاصطناعي</h2>
+      <h2 className="text-xl font-bold mb-2">AI-Powered Fault Detection</h2>
       <p className="text-gray-600 dark:text-gray-300 mb-4">
-        صف المشكلة وارفع صورة للحصول على تشخيص أولي وتوصيات
+        Describe the issue and upload a photo to get an initial diagnosis and recommendations
       </p>
 
       <div className="space-y-4">
@@ -78,9 +78,8 @@ const FaultDetection = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="صف المشكلة بالتفصيل..."
+            placeholder="Describe the issue in detail..."
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg resize-none h-24 bg-white dark:bg-gray-800"
-            dir="rtl"
           />
         </div>
 
@@ -103,7 +102,7 @@ const FaultDetection = () => {
             <>
               <ImageIcon size={48} className="text-gray-400 mb-2" />
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                قم برفع صورة للمشكلة (اختياري)
+                Upload an image of the issue (optional)
               </p>
               <input
                 type="file"
@@ -118,7 +117,7 @@ const FaultDetection = () => {
                 className="flex items-center"
               >
                 <Upload size={16} className="mr-2" />
-                اختر صورة
+                Choose Image
               </Button>
             </>
           )}
@@ -132,12 +131,12 @@ const FaultDetection = () => {
           {isAnalyzing ? (
             <>
               <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-              جاري التحليل...
+              Analyzing...
             </>
           ) : (
             <>
               <Search size={16} className="mr-2" />
-              تحليل المشكلة
+              Analyze Issue
             </>
           )}
         </Button>
@@ -145,7 +144,7 @@ const FaultDetection = () => {
         {result && (
           <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
             <h3 className="font-semibold mb-2 text-blue-600 dark:text-blue-400">
-              التشخيص والتوصيات:
+              Diagnosis & Recommendations:
             </h3>
             <p className="text-gray-700 dark:text-gray-300">{result}</p>
           </div>

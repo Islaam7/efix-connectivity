@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot } from 'lucide-react';
+import { Send, X, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 type Message = {
@@ -13,7 +12,7 @@ type Message = {
 const initialMessages: Message[] = [
   {
     id: '1',
-    text: 'مرحبًا! أنا مساعدك الافتراضي. كيف يمكنني مساعدتك اليوم؟',
+    text: 'Hello! I am your virtual assistant. How can I help you today?',
     isUser: false,
     timestamp: new Date(),
   },
@@ -65,16 +64,16 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ onClose }) => {
   const getAutomatedResponse = (userInput: string): string => {
     const userInputLower = userInput.toLowerCase();
     
-    if (userInputLower.includes('سعر') || userInputLower.includes('تكلفة')) {
-      return 'تختلف أسعار الخدمات حسب نوع الخدمة والوقت المطلوب. يمكنك الاطلاع على التفاصيل في صفحة الخدمة المحددة أو التواصل مع الفني مباشرة.';
-    } else if (userInputLower.includes('وقت') || userInputLower.includes('متى')) {
-      return 'يمكنك حجز موعد في أي وقت من خلال التطبيق، وسيتم تأكيد الموعد من قبل الفني في أقرب وقت ممكن.';
-    } else if (userInputLower.includes('مشكلة') || userInputLower.includes('عطل')) {
-      return 'لتشخيص المشكلة بشكل أفضل، يرجى زيارة قسم "كشف الأعطال" في الصفحة الرئيسية حيث يمكنك وصف المشكلة ورفع صورة لمساعدتك بشكل أفضل.';
-    } else if (userInputLower.includes('شكر') || userInputLower.includes('جزيل')) {
-      return 'شكرًا لك! نحن سعداء بخدمتك. هل هناك أي شيء آخر يمكننا المساعدة به؟';
+    if (userInputLower.includes('سعر') || userInputLower.includes('تكلفة') || userInputLower.includes('price') || userInputLower.includes('cost')) {
+      return 'Service prices vary depending on the type of service and the time required. You can find details on the specific service page or contact the technician directly.';
+    } else if (userInputLower.includes('وقت') || userInputLower.includes('متى') || userInputLower.includes('time') || userInputLower.includes('when')) {
+      return 'You can book an appointment at any time through the application, and the appointment will be confirmed by the technician as soon as possible.';
+    } else if (userInputLower.includes('مشكلة') || userInputLower.includes('عطل') || userInputLower.includes('problem') || userInputLower.includes('fault')) {
+      return 'To better diagnose the problem, please visit the "Fault Detection" section on the main page where you can describe the problem and upload a picture to help you better.';
+    } else if (userInputLower.includes('شكر') || userInputLower.includes('جزيل') || userInputLower.includes('thank') || userInputLower.includes('thanks')) {
+      return 'Thank you! We are happy to serve you. Is there anything else we can help you with?';
     } else {
-      return 'شكرًا على تواصلك! سيقوم أحد الفنيين بالرد عليك قريبًا، أو يمكنك تصفح الخدمات المتاحة لدينا للعثور على ما يناسب احتياجاتك.';
+      return 'Thank you for contacting us! One of our technicians will respond to you soon, or you can browse our available services to find what suits your needs.';
     }
   };
 
@@ -89,8 +88,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ onClose }) => {
       {/* Header */}
       <div className="bg-blue-500 text-white px-4 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <Bot className="w-6 h-6 mr-2" />
-          <h3 className="font-semibold">المساعد الافتراضي</h3>
+          <MessageCircle className="w-6 h-6 mr-2" />
+          <h3 className="font-semibold">Virtual Assistant</h3>
         </div>
         <button onClick={onClose} className="text-white hover:bg-blue-600 p-1 rounded-full">
           <X className="w-5 h-5" />
@@ -128,9 +127,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ onClose }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="اكتب رسالتك هنا..."
+          placeholder="Type your message here..."
           className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
-          dir="rtl"
         />
         <Button
           size="icon"

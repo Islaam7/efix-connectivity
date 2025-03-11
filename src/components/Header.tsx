@@ -1,29 +1,11 @@
 
 import React from 'react';
-import { Bell, Sun, Moon } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    }
-    return 'light';
-  });
-
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      setTheme('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setTheme('light');
-    }
-  };
 
   if (!isHomePage) {
     return null;
@@ -44,14 +26,7 @@ const Header = () => {
             <span className="text-white font-semibold mr-2">120</span>
             <span className="text-yellow-300">⚡</span>
           </div>
-          <div className="flex items-center space-x-3">
-            <button onClick={toggleTheme} className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-              {theme === 'light' ? (
-                <Moon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-              ) : (
-                <Sun className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-              )}
-            </button>
+          <div className="flex items-center">
             <button className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
               <Bell className="h-5 w-5 text-gray-700 dark:text-gray-300" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
