@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useThemeStore } from '@/lib/theme';
 
@@ -46,12 +46,25 @@ const Bookings = () => {
   ];
   
   // تحديد لون الزر بناءً على السمة الحالية
-  const getPrimaryButtonClass = () => {
-    switch(theme) {
-      case 'purple': return 'button-gradient-purple';
-      case 'oceanic': return 'button-gradient-oceanic';
-      case 'sunset': return 'button-gradient-sunset';
-      default: return 'bg-primary';
+  const getPrimaryButtonClass = (action = 'primary') => {
+    if (theme === 'dark') {
+      return action === 'primary' ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90';
+    }
+    
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return action === 'primary' ? 'button-gradient-dark-blue' : 'bg-blue-700 hover:bg-blue-800';
+        case 'dark-emerald': return action === 'primary' ? 'button-gradient-dark-emerald' : 'bg-emerald-700 hover:bg-emerald-800';
+        case 'dark-rose': return action === 'primary' ? 'button-gradient-dark-rose' : 'bg-rose-700 hover:bg-rose-800';
+        default: return 'bg-primary hover:bg-primary/90';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return action === 'primary' ? 'button-gradient-purple' : 'bg-purple-600 hover:bg-purple-700';
+        case 'oceanic': return action === 'primary' ? 'button-gradient-oceanic' : 'bg-blue-600 hover:bg-blue-700';
+        case 'sunset': return action === 'primary' ? 'button-gradient-sunset' : 'bg-orange-600 hover:bg-orange-700';
+        default: return 'bg-primary hover:bg-primary/90';
+      }
     }
   };
 
@@ -114,12 +127,15 @@ const Bookings = () => {
             variant="outline" 
             className="flex-1 rounded-lg hover-lift"
           >
-            Reschedule
+            {booking.status === 'completed' ? 'Contact Again' : 'Reschedule'}
           </Button>
           <Button 
-            className={`flex-1 rounded-lg hover-lift ${getPrimaryButtonClass()}`}
+            className={`flex-1 rounded-lg hover-lift flex items-center justify-center ${
+              getPrimaryButtonClass(booking.status === 'completed' ? 'secondary' : 'primary')
+            }`}
           >
             {booking.status === 'completed' ? 'Leave Review' : 'View Details'}
+            <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>

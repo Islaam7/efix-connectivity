@@ -48,6 +48,33 @@ const ThemeSelector = () => {
       className: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
       description: "Warm orange hues like a beautiful sunset"
     },
+    { 
+      value: 'dark-blue', 
+      label: 'Dark Blue', 
+      icon: <div className="w-5 h-5 rounded-full bg-blue-700 flex items-center justify-center">
+              {theme === 'dark-blue' && <Check className="w-3 h-3 text-white" />}
+            </div>, 
+      className: "bg-blue-950 text-blue-100 border-blue-800",
+      description: "Deep blue dark theme for night use"
+    },
+    { 
+      value: 'dark-emerald', 
+      label: 'Dark Emerald', 
+      icon: <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center">
+              {theme === 'dark-emerald' && <Check className="w-3 h-3 text-white" />}
+            </div>, 
+      className: "bg-emerald-950 text-emerald-100 border-emerald-800",
+      description: "Soothing emerald green dark theme"
+    },
+    { 
+      value: 'dark-rose', 
+      label: 'Dark Rose', 
+      icon: <div className="w-5 h-5 rounded-full bg-rose-600 flex items-center justify-center">
+              {theme === 'dark-rose' && <Check className="w-3 h-3 text-white" />}
+            </div>, 
+      className: "bg-rose-950 text-rose-100 border-rose-800",
+      description: "Elegant rose dark theme with a touch of luxury"
+    },
   ];
 
   return (

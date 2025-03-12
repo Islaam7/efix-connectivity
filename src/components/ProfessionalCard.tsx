@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, MapPin, Calendar } from 'lucide-react';
+import { Star, MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -57,22 +57,33 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
   const getButtonClass = () => {
     if (!available) return 'bg-muted text-muted-foreground';
     
-    switch(theme) {
-      case 'purple': return 'button-gradient-purple';
-      case 'oceanic': return 'button-gradient-oceanic';
-      case 'sunset': return 'button-gradient-sunset';
-      default: return 'bg-primary';
+    if (theme === 'dark') return 'bg-primary hover:bg-primary/90';
+    
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'button-gradient-dark-blue';
+        case 'dark-emerald': return 'button-gradient-dark-emerald';
+        case 'dark-rose': return 'button-gradient-dark-rose';
+        default: return 'bg-primary';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return 'button-gradient-purple';
+        case 'oceanic': return 'button-gradient-oceanic';
+        case 'sunset': return 'button-gradient-sunset';
+        default: return 'bg-primary';
+      }
     }
   };
   
   // تحديد أسلوب حالة التوفر
   const getAvailabilityStyle = () => {
     if (available) {
-      return theme === 'dark' 
+      return theme.startsWith('dark') 
         ? 'bg-green-900/30 text-green-300'
         : 'bg-green-100 text-green-800';
     } else {
-      return theme === 'dark'
+      return theme.startsWith('dark')
         ? 'bg-gray-800 text-gray-300' 
         : 'bg-gray-100 text-gray-600';
     }
@@ -124,11 +135,12 @@ const ProfessionalCard: React.FC<ProfessionalProps> = ({
           View Profile
         </Button>
         <Button 
-          className={`flex-1 rounded-lg hover-lift ${getButtonClass()}`}
+          className={`flex-1 rounded-lg hover-lift group ${getButtonClass()}`}
           onClick={handleBookNow}
           disabled={!available}
         >
           Book Now
+          <ArrowRight className="w-4 h-4 ml-1.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
         </Button>
       </div>
     </div>

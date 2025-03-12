@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { toast } from 'sonner';
 
-export type ThemeColor = 'light' | 'dark' | 'purple' | 'oceanic' | 'sunset';
+export type ThemeColor = 'light' | 'dark' | 'purple' | 'oceanic' | 'sunset' | 'dark-blue' | 'dark-emerald' | 'dark-rose';
 
 interface ThemeState {
   theme: ThemeColor;
@@ -13,13 +13,21 @@ export const useThemeStore = create<ThemeState>((set) => ({
   theme: (typeof localStorage !== 'undefined' && localStorage.getItem('theme') as ThemeColor) || 'light',
   setTheme: (theme) => {
     // Remove all theme classes
-    document.documentElement.classList.remove('light', 'dark', 'theme-purple', 'theme-oceanic', 'theme-sunset');
+    document.documentElement.classList.remove(
+      'light', 'dark', 
+      'theme-purple', 'theme-oceanic', 'theme-sunset',
+      'theme-dark-blue', 'theme-dark-emerald', 'theme-dark-rose'
+    );
     
     // Add the selected theme class
     if (theme === 'light' || theme === 'dark') {
       document.documentElement.classList.add(theme);
+    } else if (theme.startsWith('dark-')) {
+      // For dark custom themes, add both dark and the theme class
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add(`theme-${theme}`);
     } else {
-      // For custom themes, add both a base (light/dark) and the theme class
+      // For light custom themes, add both light and the theme class
       document.documentElement.classList.add('light');
       document.documentElement.classList.add(`theme-${theme}`);
     }
@@ -28,7 +36,6 @@ export const useThemeStore = create<ThemeState>((set) => ({
     localStorage.setItem('theme', theme);
     
     // Force update CSS variables for specific elements that might not inherit properly
-    // This helps fix the background color issue in some components
     document.querySelectorAll('.theme-aware').forEach(element => {
       if (element instanceof HTMLElement) {
         element.dataset.theme = theme;
@@ -42,7 +49,10 @@ export const useThemeStore = create<ThemeState>((set) => ({
       dark: 'Dark Mode',
       purple: 'Purple Theme',
       oceanic: 'Oceanic Theme',
-      sunset: 'Sunset Theme'
+      sunset: 'Sunset Theme',
+      'dark-blue': 'Dark Blue Theme',
+      'dark-emerald': 'Dark Emerald Theme',
+      'dark-rose': 'Dark Rose Theme'
     };
     
     toast.success(`${themeNames[theme]} enabled`, {

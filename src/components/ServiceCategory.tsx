@@ -32,6 +32,12 @@ const ServiceCategory: React.FC<ServiceCategoryProps> = ({
   const getBorderStyle = () => {
     if (theme === 'dark') {
       return { borderLeftColor: color, borderLeftWidth: '4px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.2)' };
+    } else if (theme === 'dark-blue') {
+      return { borderLeftColor: '#3B82F6', borderLeftWidth: '4px', boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.15)' };
+    } else if (theme === 'dark-emerald') {
+      return { borderLeftColor: '#10B981', borderLeftWidth: '4px', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.15)' };
+    } else if (theme === 'dark-rose') {
+      return { borderLeftColor: '#F43F5E', borderLeftWidth: '4px', boxShadow: '0 4px 6px -1px rgba(244, 63, 94, 0.15)' };
     } else if (theme.includes('purple')) {
       return { borderLeftColor: '#9b87f5', borderLeftWidth: '4px', boxShadow: '0 4px 6px -1px rgba(155, 135, 245, 0.1)' };
     } else if (theme.includes('oceanic')) {
