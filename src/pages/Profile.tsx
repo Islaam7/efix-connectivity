@@ -1,40 +1,32 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
-import { Settings, LogOut, CreditCard, Bell, Shield, HelpCircle, Star, Moon, Sun, Award, Gift, CheckCircle } from 'lucide-react';
+import { Settings, LogOut, CreditCard, Bell, Shield, HelpCircle, Star, Moon, Sun, Award, Gift, CheckCircle, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useThemeStore, ThemeColor } from '@/lib/theme';
 
 const Profile = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const { theme, setTheme } = useThemeStore();
 
-  // Check the user's preferred theme on component mount
+  // Initialize theme on component mount
   useEffect(() => {
-    if (document.documentElement.classList.contains('dark')) {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      document.documentElement.classList.add('dark');
-      setTheme('dark');
-      localStorage.setItem('theme', 'dark');
-      toast.success('Dark mode enabled');
-    } else {
-      document.documentElement.classList.remove('dark');
-      setTheme('light');
-      localStorage.setItem('theme', 'light');
-      toast.success('Light mode enabled');
-    }
-  };
+    const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
+    setTheme(savedTheme);
+  }, [setTheme]);
 
   const handleLogout = () => {
     toast.info('Logged out successfully');
   };
+
+  const themeOptions: { value: ThemeColor; label: string; icon: React.ReactNode }[] = [
+    { value: 'light', label: 'Light Mode', icon: <Sun className="w-4 h-4" /> },
+    { value: 'dark', label: 'Dark Mode', icon: <Moon className="w-4 h-4" /> },
+    { value: 'purple', label: 'Purple Theme', icon: <div className="w-4 h-4 rounded-full bg-purple-500" /> },
+    { value: 'oceanic', label: 'Oceanic Theme', icon: <div className="w-4 h-4 rounded-full bg-blue-500" /> },
+    { value: 'sunset', label: 'Sunset Theme', icon: <div className="w-4 h-4 rounded-full bg-orange-500" /> },
+  ];
 
   return (
     <div className="min-h-screen bg-efix-background-light dark:bg-efix-background-dark pb-16">
@@ -107,6 +99,36 @@ const Profile = () => {
             </div>
           </div>
 
+          {/* Theme Selector */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden mb-4">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="font-semibold mb-3 flex items-center">
+                <Palette className="w-5 h-5 mr-2 text-blue-500" />
+                Theme Settings
+              </h2>
+              <div className="grid grid-cols-2 gap-3">
+                {themeOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setTheme(option.value)}
+                    className={`flex items-center justify-center p-3 rounded-lg border transition-all ${
+                      theme === option.value
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                        : 'border-gray-200 dark:border-gray-700'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2">
+                        {option.icon}
+                      </div>
+                      <span className="text-sm font-medium">{option.label}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 className="font-semibold mb-2">Account</h2>
@@ -170,24 +192,6 @@ const Profile = () => {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-sm font-medium">My Reviews</h3>
-                  </div>
-                  <div className="text-gray-400">
-                    &rsaquo;
-                  </div>
-                </div>
-                
-                <div className="flex items-center cursor-pointer" onClick={toggleTheme}>
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3">
-                    {theme === 'light' ? (
-                      <Moon className="w-4 h-4 text-efix-primary" />
-                    ) : (
-                      <Sun className="w-4 h-4 text-efix-primary" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-medium">
-                      {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-                    </h3>
                   </div>
                   <div className="text-gray-400">
                     &rsaquo;

@@ -47,7 +47,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] dark:from-gray-900 dark:to-gray-800 pb-16">
-      {/* Custom header for this page, now without back button */}
+      {/* Custom header for this page */}
       <div className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="container mx-auto max-w-lg px-4 py-3 flex items-center">
           <h1 className="text-lg font-bold">Services</h1>
