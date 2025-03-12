@@ -3,8 +3,12 @@ import React from 'react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
 import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useThemeStore } from '@/lib/theme';
 
 const Bookings = () => {
+  const { theme } = useThemeStore();
+  
   const upcomingBookings = [
     {
       id: '1',
@@ -40,83 +44,117 @@ const Bookings = () => {
       image: 'https://randomuser.me/api/portraits/men/2.jpg'
     }
   ];
+  
+  // تحديد لون الزر بناءً على السمة الحالية
+  const getPrimaryButtonClass = () => {
+    switch(theme) {
+      case 'purple': return 'button-gradient-purple';
+      case 'oceanic': return 'button-gradient-oceanic';
+      case 'sunset': return 'button-gradient-sunset';
+      default: return 'bg-primary';
+    }
+  };
 
-  const BookingCard = ({ booking }: { booking: typeof upcomingBookings[0] }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-4">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
-          <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
-            <img 
-              src={booking.image} 
-              alt={booking.professional} 
-              className="w-full h-full object-cover"
-            />
+  const BookingCard = ({ booking }: { booking: typeof upcomingBookings[0] }) => {
+    const getStatusClasses = (status: string) => {
+      const baseClasses = "text-xs font-medium px-3 py-1.5 rounded-full";
+      
+      switch(status) {
+        case 'confirmed': 
+          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-green-100 text-green-800' : 'bg-green-900/30 text-green-300'}`;
+        case 'pending':
+          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-yellow-100 text-yellow-800' : 'bg-yellow-900/30 text-yellow-300'}`;
+        case 'completed':
+          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-blue-100 text-blue-800' : 'bg-blue-900/30 text-blue-300'}`;
+        default:
+          return baseClasses;
+      }
+    };
+    
+    return (
+      <div className="bg-card text-card-foreground rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-5 mb-4 border border-border animate-fade-in transform hover:-translate-y-1">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <div className="w-14 h-14 rounded-full overflow-hidden mr-4 border-2 border-primary/20">
+              <img 
+                src={booking.image} 
+                alt={booking.professional} 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-0.5">{booking.service}</h3>
+              <p className="text-sm text-muted-foreground">{booking.professional}</p>
+            </div>
           </div>
           <div>
-            <h3 className="font-semibold">{booking.service}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{booking.professional}</p>
+            <span className={getStatusClasses(booking.status)}>
+              {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+            </span>
           </div>
         </div>
-        <div>
-          <span 
-            className={`text-xs font-medium px-2 py-1 rounded-full ${
-              booking.status === 'confirmed' 
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                : booking.status === 'pending'
-                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-            }`}
+
+        <div className="space-y-3 text-sm mb-4">
+          <div className="flex items-center text-muted-foreground">
+            <Calendar className="w-4 h-4 mr-3 text-primary" />
+            {booking.date}
+          </div>
+          <div className="flex items-center text-muted-foreground">
+            <Clock className="w-4 h-4 mr-3 text-primary" />
+            {booking.time}
+          </div>
+          <div className="flex items-center text-muted-foreground">
+            <MapPin className="w-4 h-4 mr-3 text-primary" />
+            {booking.address}
+          </div>
+        </div>
+
+        <div className="flex gap-3 mt-4">
+          <Button 
+            variant="outline" 
+            className="flex-1 rounded-lg hover-lift"
           >
-            {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-          </span>
+            Reschedule
+          </Button>
+          <Button 
+            className={`flex-1 rounded-lg hover-lift ${getPrimaryButtonClass()}`}
+          >
+            {booking.status === 'completed' ? 'Leave Review' : 'View Details'}
+          </Button>
         </div>
       </div>
-
-      <div className="space-y-2 text-sm">
-        <div className="flex items-center text-gray-600 dark:text-gray-300">
-          <Calendar className="w-4 h-4 mr-2" />
-          {booking.date}
-        </div>
-        <div className="flex items-center text-gray-600 dark:text-gray-300">
-          <Clock className="w-4 h-4 mr-2" />
-          {booking.time}
-        </div>
-        <div className="flex items-center text-gray-600 dark:text-gray-300">
-          <MapPin className="w-4 h-4 mr-2" />
-          {booking.address}
-        </div>
-      </div>
-
-      <div className="flex space-x-2 mt-4">
-        <button className="flex-1 py-2 text-sm border border-efix-primary text-efix-primary rounded-lg">
-          Reschedule
-        </button>
-        <button className="flex-1 py-2 text-sm bg-efix-primary text-white rounded-lg">
-          {booking.status === 'completed' ? 'Leave Review' : 'View Details'}
-        </button>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-efix-background-light dark:bg-efix-background-dark pb-16">
+    <div className="min-h-screen bg-background text-foreground pb-16 theme-aware" data-theme={theme}>
       <Header />
       
-      <main className="container mx-auto max-w-lg">
+      <main className="container mx-auto max-w-lg animate-fade-in">
         <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">My Bookings</h1>
+          <h1 className="text-2xl font-bold mb-5 animate-slide-up">My Bookings</h1>
           
-          <div className="mb-6">
-            <h2 className="text-lg font-medium mb-3">Upcoming</h2>
-            {upcomingBookings.map(booking => (
-              <BookingCard key={booking.id} booking={booking} />
+          <div className="mb-6 animate-slide-up" style={{animationDelay: '100ms'}}>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <span className="w-1.5 h-6 bg-primary rounded-full mr-2 opacity-80"></span>
+              Upcoming
+            </h2>
+            {upcomingBookings.map((booking, index) => (
+              <div key={booking.id} className="animate-slide-up" style={{animationDelay: `${(index + 1) * 150}ms`}}>
+                <BookingCard booking={booking} />
+              </div>
             ))}
           </div>
 
-          <div>
-            <h2 className="text-lg font-medium mb-3">Past</h2>
-            {pastBookings.map(booking => (
-              <BookingCard key={booking.id} booking={booking} />
+          <div className="animate-slide-up" style={{animationDelay: '350ms'}}>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <span className="w-1.5 h-6 bg-muted-foreground rounded-full mr-2 opacity-60"></span>
+              Past
+            </h2>
+            {pastBookings.map((booking, index) => (
+              <div key={booking.id} className="animate-slide-up" style={{animationDelay: `${(index + 4) * 150}ms`}}>
+                <BookingCard booking={booking} />
+              </div>
             ))}
           </div>
         </div>

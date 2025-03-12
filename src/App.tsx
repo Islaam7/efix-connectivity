@@ -15,17 +15,25 @@ import NotFound from "./pages/NotFound";
 import ProfessionalList from "./components/ProfessionalList";
 import ChatbotButton from "./components/ChatbotButton";
 import { useEffect } from "react";
-import { initializeTheme } from "./lib/theme";
+import { initializeTheme, useThemeStore } from "./lib/theme";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Initialize theme on app start with a safe check for window object
+  // Initialize theme on app start
   useEffect(() => {
     if (typeof window !== 'undefined') {
       initializeTheme();
+      
+      // Fix for theme issues by adding the theme-aware class to body
+      document.body.classList.add('theme-aware');
+      
+      // Apply smooth transitions to the entire app
+      document.documentElement.style.transition = "background-color 0.3s ease, color 0.3s ease";
     }
   }, []);
+  
+  const { theme } = useThemeStore();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,20 +41,22 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:serviceId/professionals" element={<ProfessionalList />} />
-            <Route path="/professionals" element={<ProfessionalList title="All Professionals" showAllProfessionals={true} />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/bookings/new" element={<BookingNew />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/professionals/:id" element={<ProfessionalProfile />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <ChatbotButton />
+          <div className="theme-aware" data-theme={theme}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:serviceId/professionals" element={<ProfessionalList />} />
+              <Route path="/professionals" element={<ProfessionalList title="All Professionals" showAllProfessionals={true} />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/bookings/new" element={<BookingNew />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/professionals/:id" element={<ProfessionalProfile />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <ChatbotButton />
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

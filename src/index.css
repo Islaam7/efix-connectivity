@@ -213,6 +213,7 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   /* تحسين شكل شريط التمرير */
@@ -232,16 +233,26 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400 dark:bg-gray-600;
   }
+  
+  /* تحسين لعنصر التحديد */
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+  
+  /* إصلاح لمشكلة السمات عند تغيير الثيم */
+  .theme-aware {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
 }
 
 /* أنماط المكونات المخصصة مع تحسينات للتأثيرات البصرية */
 @layer components {
   .service-card {
-    @apply bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700;
+    @apply bg-card text-card-foreground rounded-xl p-4 shadow-sm transition-all hover:shadow-md border border-border hover:border-primary/20;
   }
   
   .professional-card {
-    @apply bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700;
+    @apply bg-card text-card-foreground rounded-xl p-4 shadow-sm transition-all hover:shadow-md border border-border hover:border-primary/20;
   }
   
   .efix-container {
@@ -249,11 +260,11 @@
   }
   
   .glass-card {
-    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-sm;
+    @apply bg-card/80 backdrop-blur-md border border-border shadow-sm;
   }
   
   .glass-effect {
-    @apply bg-white/50 dark:bg-gray-900/50 backdrop-blur-lg;
+    @apply bg-background/50 backdrop-blur-lg;
   }
   
   .scrollbar-none {
@@ -274,7 +285,7 @@
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700 hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-md border border-border hover:border-primary/20 hover:-translate-y-1;
   }
 
   /* أزرار متدرجة خاصة بالثيمات */
@@ -305,6 +316,54 @@
   
   .theme-card-sunset {
     @apply theme-card border-orange-300 bg-orange-50/50 dark:border-orange-800 dark:bg-orange-900/20;
+  }
+  
+  /* تأثير ripple للأزرار عند النقر */
+  .ripple-button {
+    @apply relative overflow-hidden;
+  }
+  
+  .ripple-button::after {
+    @apply content-[''] absolute rounded-full w-0 h-0 opacity-30 transform scale-0 bg-white dark:bg-black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease-out, height 0.6s ease-out, opacity 0.6s ease-out;
+  }
+  
+  .ripple-button:active::after {
+    @apply w-[300%] h-[300%] opacity-0 scale-100;
+  }
+  
+  /* بطاقات بزوايا دائرية محسنة */
+  .rounded-card {
+    @apply rounded-2xl overflow-hidden border border-border transition-all duration-300 hover:shadow-lg;
+  }
+  
+  /* بطاقات العناوين مع خط جانبي ملون */
+  .accent-card {
+    @apply border-l-4 rounded-lg p-4 shadow-sm;
+  }
+  
+  /* تصميم البطاقات للثيمات المختلفة */
+  .badge {
+    @apply text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+  
+  .badge-success {
+    @apply badge bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+  }
+  
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300;
+  }
+  
+  .badge-info {
+    @apply badge bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+  }
+  
+  .badge-neutral {
+    @apply badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300;
   }
 }
 
@@ -349,6 +408,35 @@
   .hover-glow-sunset:hover {
     filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
   }
+  
+  /* تأثيرات جديدة للمكونات المتفاعلة */
+  .press-effect {
+    @apply transition-transform duration-200 active:scale-95;
+  }
+  
+  .tilt-effect {
+    @apply transition-transform duration-300;
+  }
+  
+  .tilt-effect:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+  }
+  
+  .scale-on-hover {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+  
+  .blur-bg {
+    @apply backdrop-blur-md bg-white/30 dark:bg-black/30;
+  }
+  
+  /* تأثيرات جديدة للنصوص */
+  .shimmer-text {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    -webkit-background-clip: text;
+  }
 }
 
 @keyframes fadeIn {
@@ -362,7 +450,7 @@
 
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(30px);
     opacity: 0;
   }
   to {
@@ -393,4 +481,36 @@
   50% {
     opacity: 0.7;
   }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* تحسينات إضافية للتأثيرات البصرية */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* مكونات الشكل الجديدة */
+.blob-shape {
+  border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+}
+
+.blob-shape-alt {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
 }

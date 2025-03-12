@@ -27,6 +27,15 @@ export const useThemeStore = create<ThemeState>((set) => ({
     // Save to local storage
     localStorage.setItem('theme', theme);
     
+    // Force update CSS variables for specific elements that might not inherit properly
+    // This helps fix the background color issue in some components
+    document.querySelectorAll('.theme-aware').forEach(element => {
+      if (element instanceof HTMLElement) {
+        element.dataset.theme = theme;
+        element.style.transition = "background-color 0.3s ease, color 0.3s ease";
+      }
+    });
+    
     // Show toast notification
     const themeNames = {
       light: 'Light Mode',
@@ -36,7 +45,17 @@ export const useThemeStore = create<ThemeState>((set) => ({
       sunset: 'Sunset Theme'
     };
     
-    toast.success(`${themeNames[theme]} enabled`);
+    toast.success(`${themeNames[theme]} enabled`, {
+      duration: 1500,
+      position: 'top-center',
+      style: {
+        borderRadius: '8px',
+        backgroundColor: 'var(--background)',
+        color: 'var(--foreground)',
+        border: '1px solid var(--border)'
+      }
+    });
+    
     set({ theme });
   },
 }));
@@ -46,5 +65,31 @@ export const initializeTheme = () => {
   if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
     useThemeStore.getState().setTheme(savedTheme);
+    
+    // Add MutationObserver to monitor DOM changes and apply theme to new elements
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node instanceof HTMLElement) {
+              // Apply current theme to any new elements with the theme-aware class
+              if (node.classList.contains('theme-aware')) {
+                node.dataset.theme = savedTheme;
+              }
+              
+              // Also check children of the added node
+              node.querySelectorAll('.theme-aware').forEach(element => {
+                if (element instanceof HTMLElement) {
+                  element.dataset.theme = savedTheme;
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+    
+    // Start observing the document
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 };
