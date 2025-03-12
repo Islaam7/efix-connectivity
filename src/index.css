@@ -83,6 +83,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  /* تحسين الثيمات المخصصة */
   /* Purple theme */
   .theme-purple {
     --background: 260 50% 98%;
@@ -214,7 +215,7 @@
     font-family: 'Inter', sans-serif;
   }
   
-  /* Improved scrollbar styling */
+  /* تحسين شكل شريط التمرير */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -233,7 +234,7 @@
   }
 }
 
-/* Custom component styles */
+/* أنماط المكونات المخصصة مع تحسينات للتأثيرات البصرية */
 @layer components {
   .service-card {
     @apply bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-all hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700;
@@ -273,10 +274,10 @@
   }
   
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700;
+    @apply transition-all duration-300 hover:shadow-md border border-transparent hover:border-blue-100 dark:hover:border-gray-700 hover:-translate-y-1;
   }
 
-  /* Theme-specific gradient buttons */
+  /* أزرار متدرجة خاصة بالثيمات */
   .button-gradient-purple {
     @apply bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700;
   }
@@ -288,9 +289,26 @@
   .button-gradient-sunset {
     @apply bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600;
   }
+  
+  /* إضافة قسم جديد لمكونات خاصة بالثيمات */
+  .theme-card {
+    @apply rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-xl border-2 transform hover:-translate-y-1;
+  }
+  
+  .theme-card-purple {
+    @apply theme-card border-purple-300 bg-purple-50/50 dark:border-purple-800 dark:bg-purple-900/20;
+  }
+  
+  .theme-card-oceanic {
+    @apply theme-card border-blue-300 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-900/20;
+  }
+  
+  .theme-card-sunset {
+    @apply theme-card border-orange-300 bg-orange-50/50 dark:border-orange-800 dark:bg-orange-900/20;
+  }
 }
 
-/* Animation utilities */
+/* تحسينات الرسوم المتحركة */
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out forwards;
@@ -302,6 +320,34 @@
   
   .animate-bounce-in {
     animation: bounceIn 0.5s ease-out forwards;
+  }
+  
+  .animate-pulse-subtle {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+  
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow:hover {
+    filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.5));
+  }
+  
+  .hover-glow-purple:hover {
+    filter: drop-shadow(0 0 4px rgba(147, 51, 234, 0.5));
+  }
+  
+  .hover-glow-oceanic:hover {
+    filter: drop-shadow(0 0 4px rgba(14, 165, 233, 0.5));
+  }
+  
+  .hover-glow-sunset:hover {
+    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
   }
 }
 
@@ -337,5 +383,14 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
   }
 }

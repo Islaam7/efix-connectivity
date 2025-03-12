@@ -20,9 +20,11 @@ import { initializeTheme } from "./lib/theme";
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Initialize theme on app start
+  // Initialize theme on app start with a safe check for window object
   useEffect(() => {
-    initializeTheme();
+    if (typeof window !== 'undefined') {
+      initializeTheme();
+    }
   }, []);
 
   return (

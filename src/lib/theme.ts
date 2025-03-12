@@ -10,7 +10,7 @@ interface ThemeState {
 }
 
 export const useThemeStore = create<ThemeState>((set) => ({
-  theme: localStorage.getItem('theme') as ThemeColor || 'light',
+  theme: (typeof localStorage !== 'undefined' && localStorage.getItem('theme') as ThemeColor) || 'light',
   setTheme: (theme) => {
     // Remove all theme classes
     document.documentElement.classList.remove('light', 'dark', 'theme-purple', 'theme-oceanic', 'theme-sunset');
@@ -43,6 +43,8 @@ export const useThemeStore = create<ThemeState>((set) => ({
 
 // Apply the theme from local storage on initialization
 export const initializeTheme = () => {
-  const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
-  useThemeStore.getState().setTheme(savedTheme);
+  if (typeof window !== 'undefined') {
+    const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
+    useThemeStore.getState().setTheme(savedTheme);
+  }
 };
