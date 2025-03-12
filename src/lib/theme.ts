@@ -35,13 +35,22 @@ export const useThemeStore = create<ThemeState>((set) => ({
     // Save to local storage
     localStorage.setItem('theme', theme);
     
-    // Force update CSS variables for specific elements that might not inherit properly
-    document.querySelectorAll('.theme-aware').forEach(element => {
-      if (element instanceof HTMLElement) {
-        element.dataset.theme = theme;
-        element.style.transition = "background-color 0.3s ease, color 0.3s ease";
-      }
-    });
+    // Apply theme to all elements with theme-aware class
+    const applyThemeToElements = () => {
+      document.querySelectorAll('.theme-aware').forEach(element => {
+        if (element instanceof HTMLElement) {
+          element.dataset.theme = theme;
+          // استخدام نمط انتقال لجميع المتغيرات
+          element.style.transition = "all 0.3s ease";
+        }
+      });
+    };
+    
+    // تطبيق السمة فوراً ثم مرة أخرى بعد تحميل الصفحة بالكامل
+    applyThemeToElements();
+    
+    // تأخير لتطبيق السمة مرة ثانية لضمان أن جميع العناصر الجديدة تأخذ السمة
+    setTimeout(applyThemeToElements, 100);
     
     // Show toast notification
     const themeNames = {
@@ -76,18 +85,18 @@ export const initializeTheme = () => {
     const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
     useThemeStore.getState().setTheme(savedTheme);
     
-    // Add MutationObserver to monitor DOM changes and apply theme to new elements
+    // إضافة مراقب للتغييرات في DOM لتطبيق السمة على العناصر الجديدة
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
             if (node instanceof HTMLElement) {
-              // Apply current theme to any new elements with the theme-aware class
+              // تطبيق السمة الحالية على أي عناصر جديدة
               if (node.classList.contains('theme-aware')) {
                 node.dataset.theme = savedTheme;
               }
               
-              // Also check children of the added node
+              // التحقق أيضًا من العناصر الفرعية للعنصر المضاف
               node.querySelectorAll('.theme-aware').forEach(element => {
                 if (element instanceof HTMLElement) {
                   element.dataset.theme = savedTheme;
@@ -99,7 +108,18 @@ export const initializeTheme = () => {
       });
     });
     
-    // Start observing the document
+    // بدء مراقبة الصفحة
     observer.observe(document.body, { childList: true, subtree: true });
+    
+    // تحديث السمة عند تغيير حجم النافذة (لمعالجة مشكلات على الأجهزة المحمولة)
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        document.querySelectorAll('.theme-aware').forEach(element => {
+          if (element instanceof HTMLElement) {
+            element.dataset.theme = savedTheme;
+          }
+        });
+      }, 100);
+    });
   }
 };

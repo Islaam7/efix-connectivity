@@ -1,13 +1,16 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
 import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useThemeStore } from '@/lib/theme';
+import { toast } from 'sonner';
 
 const Bookings = () => {
   const { theme } = useThemeStore();
+  const navigate = useNavigate();
   
   const upcomingBookings = [
     {
@@ -45,25 +48,53 @@ const Bookings = () => {
     }
   ];
   
+  // تنفيذ إجراءات الأزرار
+  const handleViewDetails = (bookingId: string) => {
+    // هنا يمكن التنقل إلى صفحة تفاصيل الحجز
+    toast.info(`عرض تفاصيل الحجز: ${bookingId}`);
+    // navigate(`/bookings/${bookingId}`);
+  };
+  
+  const handleReschedule = (bookingId: string) => {
+    toast.info(`جاري إعادة جدولة الحجز: ${bookingId}`, {
+      description: "انتقال إلى صفحة إعادة الجدولة"
+    });
+    // navigate(`/bookings/${bookingId}/reschedule`);
+  };
+  
+  const handleLeaveReview = (bookingId: string) => {
+    toast.info(`ترك تقييم للحجز: ${bookingId}`, {
+      description: "انتقال إلى صفحة التقييمات"
+    });
+    // navigate(`/bookings/${bookingId}/review`);
+  };
+  
+  const handleContactAgain = (bookingId: string) => {
+    toast.info(`التواصل مجدداً مع مقدم الخدمة للحجز: ${bookingId}`, {
+      description: "انتقال إلى صفحة الرسائل"
+    });
+    // navigate(`/messages/new?bookingId=${bookingId}`);
+  };
+  
   // تحديد لون الزر بناءً على السمة الحالية
   const getPrimaryButtonClass = (action = 'primary') => {
     if (theme === 'dark') {
-      return action === 'primary' ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90';
+      return action === 'primary' ? 'bg-primary hover:bg-primary/90 text-primary-foreground' : 'bg-secondary hover:bg-secondary/90 text-secondary-foreground';
     }
     
     if (theme.startsWith('dark-')) {
       switch(theme) {
-        case 'dark-blue': return action === 'primary' ? 'button-gradient-dark-blue' : 'bg-blue-700 hover:bg-blue-800';
-        case 'dark-emerald': return action === 'primary' ? 'button-gradient-dark-emerald' : 'bg-emerald-700 hover:bg-emerald-800';
-        case 'dark-rose': return action === 'primary' ? 'button-gradient-dark-rose' : 'bg-rose-700 hover:bg-rose-800';
-        default: return 'bg-primary hover:bg-primary/90';
+        case 'dark-blue': return action === 'primary' ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white' : 'bg-blue-700 hover:bg-blue-800 text-white';
+        case 'dark-emerald': return action === 'primary' ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white' : 'bg-emerald-700 hover:bg-emerald-800 text-white';
+        case 'dark-rose': return action === 'primary' ? 'bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 text-white' : 'bg-rose-700 hover:bg-rose-800 text-white';
+        default: return 'bg-primary hover:bg-primary/90 text-primary-foreground';
       }
     } else {
       switch(theme) {
-        case 'purple': return action === 'primary' ? 'button-gradient-purple' : 'bg-purple-600 hover:bg-purple-700';
-        case 'oceanic': return action === 'primary' ? 'button-gradient-oceanic' : 'bg-blue-600 hover:bg-blue-700';
-        case 'sunset': return action === 'primary' ? 'button-gradient-sunset' : 'bg-orange-600 hover:bg-orange-700';
-        default: return 'bg-primary hover:bg-primary/90';
+        case 'purple': return action === 'primary' ? 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white' : 'bg-purple-600 hover:bg-purple-700 text-white';
+        case 'oceanic': return action === 'primary' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white';
+        case 'sunset': return action === 'primary' ? 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white' : 'bg-orange-600 hover:bg-orange-700 text-white';
+        default: return 'bg-primary hover:bg-primary/90 text-primary-foreground';
       }
     }
   };
@@ -74,11 +105,11 @@ const Bookings = () => {
       
       switch(status) {
         case 'confirmed': 
-          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-green-100 text-green-800' : 'bg-green-900/30 text-green-300'}`;
+          return `${baseClasses} ${theme === 'light' || theme === 'dark' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : theme.startsWith('dark-') ? 'bg-green-900/30 text-green-300' : 'bg-green-100 text-green-800'}`;
         case 'pending':
-          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-yellow-100 text-yellow-800' : 'bg-yellow-900/30 text-yellow-300'}`;
+          return `${baseClasses} ${theme === 'light' || theme === 'dark' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' : theme.startsWith('dark-') ? 'bg-yellow-900/30 text-yellow-300' : 'bg-yellow-100 text-yellow-800'}`;
         case 'completed':
-          return `${baseClasses} ${theme === 'light' || theme.includes('theme') ? 'bg-blue-100 text-blue-800' : 'bg-blue-900/30 text-blue-300'}`;
+          return `${baseClasses} ${theme === 'light' || theme === 'dark' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' : theme.startsWith('dark-') ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-800'}`;
         default:
           return baseClasses;
       }
@@ -125,14 +156,22 @@ const Bookings = () => {
         <div className="flex gap-3 mt-4">
           <Button 
             variant="outline" 
-            className="flex-1 rounded-lg hover-lift"
+            className="flex-1 rounded-lg hover-lift ripple-button"
+            onClick={() => booking.status === 'completed' 
+              ? handleContactAgain(booking.id) 
+              : handleReschedule(booking.id)
+            }
           >
             {booking.status === 'completed' ? 'Contact Again' : 'Reschedule'}
           </Button>
           <Button 
-            className={`flex-1 rounded-lg hover-lift flex items-center justify-center ${
+            className={`flex-1 rounded-lg hover-lift ripple-button flex items-center justify-center ${
               getPrimaryButtonClass(booking.status === 'completed' ? 'secondary' : 'primary')
             }`}
+            onClick={() => booking.status === 'completed' 
+              ? handleLeaveReview(booking.id) 
+              : handleViewDetails(booking.id)
+            }
           >
             {booking.status === 'completed' ? 'Leave Review' : 'View Details'}
             <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
