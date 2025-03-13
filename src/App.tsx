@@ -8,6 +8,10 @@ import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Bookings from "./pages/Bookings";
 import BookingNew from "./pages/BookingNew";
+import BookingDetails from "./pages/BookingDetails";
+import BookingReschedule from "./pages/BookingReschedule";
+import BookingReview from "./pages/BookingReview";
+import BookingContact from "./pages/BookingContact";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import ProfessionalProfile from "./pages/ProfessionalProfile";
@@ -49,6 +53,10 @@ const App = () => {
               <Route path="/professionals" element={<ProfessionalList title="All Professionals" showAllProfessionals={true} />} />
               <Route path="/bookings" element={<Bookings />} />
               <Route path="/bookings/new" element={<BookingNew />} />
+              <Route path="/bookings/:bookingId" element={<BookingDetails />} />
+              <Route path="/bookings/:bookingId/reschedule" element={<BookingReschedule />} />
+              <Route path="/bookings/:bookingId/review" element={<BookingReview />} />
+              <Route path="/bookings/:bookingId/contact" element={<BookingContact />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/professionals/:id" element={<ProfessionalProfile />} />

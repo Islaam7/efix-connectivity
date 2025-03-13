@@ -2,17 +2,64 @@
 import React from 'react';
 import { Bell } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { useThemeStore } from '@/lib/theme';
 
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { theme } = useThemeStore();
+  
+  // Determine background color based on theme
+  const getHeaderStyles = () => {
+    let bgClass = 'bg-white dark:bg-gray-900';
+    let borderClass = 'border-gray-200 dark:border-gray-800';
+    
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue':
+          bgClass = 'bg-[#151b35]';
+          borderClass = 'border-blue-900/60';
+          break;
+        case 'dark-emerald':
+          bgClass = 'bg-[#0a1f1a]';
+          borderClass = 'border-emerald-900/60';
+          break;
+        case 'dark-rose':
+          bgClass = 'bg-[#200f16]';
+          borderClass = 'border-rose-900/60';
+          break;
+        default:
+          bgClass = 'bg-gray-900';
+          borderClass = 'border-gray-800';
+      }
+    } else if (theme !== 'light') {
+      switch(theme) {
+        case 'purple':
+          bgClass = 'bg-purple-50 dark:bg-purple-900';
+          borderClass = 'border-purple-200 dark:border-purple-800';
+          break;
+        case 'oceanic':
+          bgClass = 'bg-blue-50 dark:bg-blue-900';
+          borderClass = 'border-blue-200 dark:border-blue-800';
+          break;
+        case 'sunset':
+          bgClass = 'bg-orange-50 dark:bg-orange-900';
+          borderClass = 'border-orange-200 dark:border-orange-800';
+          break;
+      }
+    }
+    
+    return { bgClass, borderClass };
+  };
+
+  const { bgClass, borderClass } = getHeaderStyles();
 
   if (!isHomePage) {
     return null;
   }
 
   return (
-    <header className="bg-white dark:bg-gray-900 p-4 shadow-sm">
+    <header className={`${bgClass} p-4 shadow-sm border-b ${borderClass} theme-aware`} data-theme={theme}>
       <div className="container mx-auto max-w-lg flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold mb-1">

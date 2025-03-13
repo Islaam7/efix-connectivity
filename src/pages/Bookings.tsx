@@ -48,32 +48,21 @@ const Bookings = () => {
     }
   ];
   
-  // تنفيذ إجراءات الأزرار
+  // Implement button actions
   const handleViewDetails = (bookingId: string) => {
-    // هنا يمكن التنقل إلى صفحة تفاصيل الحجز
-    toast.info(`عرض تفاصيل الحجز: ${bookingId}`);
-    // navigate(`/bookings/${bookingId}`);
+    navigate(`/bookings/${bookingId}`);
   };
   
   const handleReschedule = (bookingId: string) => {
-    toast.info(`جاري إعادة جدولة الحجز: ${bookingId}`, {
-      description: "انتقال إلى صفحة إعادة الجدولة"
-    });
-    // navigate(`/bookings/${bookingId}/reschedule`);
+    navigate(`/bookings/${bookingId}/reschedule`);
   };
   
   const handleLeaveReview = (bookingId: string) => {
-    toast.info(`ترك تقييم للحجز: ${bookingId}`, {
-      description: "انتقال إلى صفحة التقييمات"
-    });
-    // navigate(`/bookings/${bookingId}/review`);
+    navigate(`/bookings/${bookingId}/review`);
   };
   
   const handleContactAgain = (bookingId: string) => {
-    toast.info(`التواصل مجدداً مع مقدم الخدمة للحجز: ${bookingId}`, {
-      description: "انتقال إلى صفحة الرسائل"
-    });
-    // navigate(`/messages/new?bookingId=${bookingId}`);
+    navigate(`/bookings/${bookingId}/contact`);
   };
   
   // تحديد لون الزر بناءً على السمة الحالية
