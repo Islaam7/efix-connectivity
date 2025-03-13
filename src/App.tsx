@@ -39,13 +39,36 @@ const App = () => {
   
   const { theme } = useThemeStore();
 
+  // Get theme-specific background class
+  const getBackgroundClass = () => {
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'bg-[#0f1528]';
+        case 'dark-emerald': return 'bg-[#081512]';
+        case 'dark-rose': return 'bg-[#1a0c11]';
+        default: return 'bg-gray-900';
+      }
+    } else if (theme !== 'light' && theme !== 'dark') {
+      switch(theme) {
+        case 'purple': return 'bg-purple-50 dark:bg-purple-950';
+        case 'oceanic': return 'bg-blue-50 dark:bg-blue-950';
+        case 'sunset': return 'bg-orange-50 dark:bg-orange-950';
+        default: return 'bg-background';
+      }
+    } else {
+      return 'bg-background';
+    }
+  };
+
+  const backgroundClass = getBackgroundClass();
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="theme-aware" data-theme={theme}>
+          <div className={`min-h-screen ${backgroundClass} theme-aware`} data-theme={theme}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/services" element={<Services />} />

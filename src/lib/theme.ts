@@ -40,16 +40,13 @@ export const useThemeStore = create<ThemeState>((set) => ({
       document.querySelectorAll('.theme-aware').forEach(element => {
         if (element instanceof HTMLElement) {
           element.dataset.theme = theme;
-          // استخدام نمط انتقال لجميع المتغيرات
           element.style.transition = "all 0.3s ease";
         }
       });
     };
     
-    // تطبيق السمة فوراً ثم مرة أخرى بعد تحميل الصفحة بالكامل
+    // Apply theme immediately and again after page is fully loaded
     applyThemeToElements();
-    
-    // تأخير لتطبيق السمة مرة ثانية لضمان أن جميع العناصر الجديدة تأخذ السمة
     setTimeout(applyThemeToElements, 100);
     
     // Show toast notification
@@ -85,18 +82,18 @@ export const initializeTheme = () => {
     const savedTheme = localStorage.getItem('theme') as ThemeColor || 'light';
     useThemeStore.getState().setTheme(savedTheme);
     
-    // إضافة مراقب للتغييرات في DOM لتطبيق السمة على العناصر الجديدة
+    // Add observer for DOM changes to apply theme to new elements
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
             if (node instanceof HTMLElement) {
-              // تطبيق السمة الحالية على أي عناصر جديدة
+              // Apply current theme to any new elements
               if (node.classList.contains('theme-aware')) {
                 node.dataset.theme = savedTheme;
               }
               
-              // التحقق أيضًا من العناصر الفرعية للعنصر المضاف
+              // Also check child elements of the added element
               node.querySelectorAll('.theme-aware').forEach(element => {
                 if (element instanceof HTMLElement) {
                   element.dataset.theme = savedTheme;
@@ -108,10 +105,10 @@ export const initializeTheme = () => {
       });
     });
     
-    // بدء مراقبة الصفحة
+    // Start observing the document
     observer.observe(document.body, { childList: true, subtree: true });
     
-    // تحديث السمة عند تغيير حجم النافذة (لمعالجة مشكلات على الأجهزة المحمولة)
+    // Update theme on window resize (to handle mobile device issues)
     window.addEventListener('resize', () => {
       setTimeout(() => {
         document.querySelectorAll('.theme-aware').forEach(element => {
@@ -120,6 +117,49 @@ export const initializeTheme = () => {
           }
         });
       }, 100);
+    });
+    
+    // Set body background based on theme
+    const setBodyBackground = () => {
+      if (savedTheme.startsWith('dark-')) {
+        switch(savedTheme) {
+          case 'dark-blue':
+            document.body.style.backgroundColor = '#0f1528';
+            break;
+          case 'dark-emerald':
+            document.body.style.backgroundColor = '#081512';
+            break;
+          case 'dark-rose':
+            document.body.style.backgroundColor = '#1a0c11';
+            break;
+          default:
+            document.body.style.backgroundColor = 'var(--background)';
+        }
+      } else if (savedTheme !== 'light' && savedTheme !== 'dark') {
+        switch(savedTheme) {
+          case 'purple':
+            document.body.style.backgroundColor = document.documentElement.classList.contains('dark') ? '#1e1333' : '#f9f7ff';
+            break;
+          case 'oceanic':
+            document.body.style.backgroundColor = document.documentElement.classList.contains('dark') ? '#042a3a' : '#f0f9ff';
+            break;
+          case 'sunset':
+            document.body.style.backgroundColor = document.documentElement.classList.contains('dark') ? '#331a03' : '#fff9f0';
+            break;
+          default:
+            document.body.style.backgroundColor = 'var(--background)';
+        }
+      } else {
+        document.body.style.backgroundColor = 'var(--background)';
+      }
+    };
+    
+    setBodyBackground();
+    // Update background when theme changes
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'theme') {
+        setBodyBackground();
+      }
     });
   }
 };

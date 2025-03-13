@@ -11,8 +11,9 @@ const Header = () => {
   
   // Determine background color based on theme
   const getHeaderStyles = () => {
-    let bgClass = 'bg-white dark:bg-gray-900';
-    let borderClass = 'border-gray-200 dark:border-gray-800';
+    let bgClass = 'bg-card';
+    let borderClass = 'border-border';
+    let textClass = 'text-foreground';
     
     if (theme.startsWith('dark-')) {
       switch(theme) {
@@ -49,10 +50,50 @@ const Header = () => {
       }
     }
     
-    return { bgClass, borderClass };
+    return { bgClass, borderClass, textClass };
+  };
+  
+  // Get color for hi there text
+  const getHiThereColor = () => {
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'text-blue-400';
+        case 'dark-emerald': return 'text-emerald-400';
+        case 'dark-rose': return 'text-rose-400';
+        default: return 'text-blue-500';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return 'text-purple-600 dark:text-purple-400';
+        case 'oceanic': return 'text-blue-600 dark:text-blue-400';
+        case 'sunset': return 'text-orange-600 dark:text-orange-400';
+        default: return 'text-blue-600';
+      }
+    }
+  };
+  
+  // Get button gradient
+  const getButtonGradient = () => {
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'bg-gradient-to-r from-blue-600 to-blue-500';
+        case 'dark-emerald': return 'bg-gradient-to-r from-emerald-600 to-emerald-500';
+        case 'dark-rose': return 'bg-gradient-to-r from-rose-600 to-rose-500';
+        default: return 'bg-gradient-to-r from-blue-600 to-blue-500';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return 'bg-gradient-to-r from-purple-600 to-indigo-600';
+        case 'oceanic': return 'bg-gradient-to-r from-blue-500 to-cyan-500';
+        case 'sunset': return 'bg-gradient-to-r from-orange-500 to-amber-500';
+        default: return 'bg-gradient-to-r from-blue-500 to-indigo-600';
+      }
+    }
   };
 
   const { bgClass, borderClass } = getHeaderStyles();
+  const hiThereColor = getHiThereColor();
+  const buttonGradient = getButtonGradient();
 
   if (!isHomePage) {
     return null;
@@ -63,13 +104,13 @@ const Header = () => {
       <div className="container mx-auto max-w-lg flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold mb-1">
-            <span className="text-blue-600">Hi there!</span> 
+            <span className={hiThereColor}>Hi there!</span> 
             <span className="ml-2 text-yellow-500">👋</span>
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm">Welcome to eFix</p>
         </div>
         <div className="flex items-center space-x-4">
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full px-4 py-2 flex items-center shadow-md">
+          <div className={`${buttonGradient} rounded-full px-4 py-2 flex items-center shadow-md`}>
             <span className="text-white font-semibold mr-2">120</span>
             <span className="text-yellow-300">⚡</span>
           </div>

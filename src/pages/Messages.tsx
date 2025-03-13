@@ -44,51 +44,6 @@ const Messages = () => {
     }
   ];
   
-  // Determine appropriate background and text colors based on theme
-  const getThemeClasses = () => {
-    let bgClass = 'bg-white dark:bg-gray-900';
-    let borderClass = 'border-gray-200 dark:border-gray-700';
-    
-    if (theme.startsWith('dark-')) {
-      switch(theme) {
-        case 'dark-blue':
-          bgClass = 'bg-[#151b35]';
-          borderClass = 'border-blue-900/60';
-          break;
-        case 'dark-emerald':
-          bgClass = 'bg-[#0a1f1a]';
-          borderClass = 'border-emerald-900/60';
-          break;
-        case 'dark-rose':
-          bgClass = 'bg-[#200f16]';
-          borderClass = 'border-rose-900/60';
-          break;
-        default:
-          bgClass = 'bg-gray-900';
-          borderClass = 'border-gray-700';
-      }
-    } else if (theme !== 'light') {
-      switch(theme) {
-        case 'purple':
-          bgClass = 'bg-purple-50 dark:bg-purple-900';
-          borderClass = 'border-purple-200 dark:border-purple-800';
-          break;
-        case 'oceanic':
-          bgClass = 'bg-blue-50 dark:bg-blue-900';
-          borderClass = 'border-blue-200 dark:border-blue-800';
-          break;
-        case 'sunset':
-          bgClass = 'bg-orange-50 dark:bg-orange-900';
-          borderClass = 'border-orange-200 dark:border-orange-800';
-          break;
-      }
-    }
-    
-    return { bgClass, borderClass };
-  };
-
-  const { bgClass, borderClass } = getThemeClasses();
-  
   // Get appropriate primary color based on theme
   const getPrimaryColorClass = () => {
     if (theme.startsWith('dark-')) {
@@ -110,20 +65,42 @@ const Messages = () => {
 
   const primaryColorClass = getPrimaryColorClass();
 
+  // Get badge color for unread messages based on theme
+  const getUnreadBadgeClass = () => {
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'bg-blue-600';
+        case 'dark-emerald': return 'bg-emerald-600';
+        case 'dark-rose': return 'bg-rose-600';
+        default: return 'bg-primary';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return 'bg-purple-600';
+        case 'oceanic': return 'bg-cyan-600';
+        case 'sunset': return 'bg-orange-600';
+        default: return 'bg-primary';
+      }
+    }
+  };
+
   return (
-    <div className={`min-h-screen ${bgClass} text-foreground pb-16 theme-aware`} data-theme={theme}>
-      <Header />
+    <div className="min-h-screen text-foreground pb-16 theme-aware" data-theme={theme}>
+      <header className="bg-card p-4 border-b border-border shadow-sm">
+        <div className="container mx-auto max-w-lg">
+          <h1 className="text-2xl font-bold">Messages</h1>
+        </div>
+      </header>
       
       <main className="container mx-auto max-w-lg">
         <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">Messages</h1>
           <SearchBar placeholder="Search conversations..." />
           
           <div className="mt-6">
             {conversations.map((conversation) => (
               <div 
                 key={conversation.id}
-                className={`flex items-center p-4 border-b ${borderClass}`}
+                className="flex items-center p-4 border-b border-border hover:bg-accent/30 transition-colors"
               >
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
@@ -134,7 +111,7 @@ const Messages = () => {
                     />
                   </div>
                   {conversation.unread > 0 && (
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">
+                    <div className={`absolute -top-1 -right-1 w-5 h-5 ${getUnreadBadgeClass()} text-white text-xs rounded-full flex items-center justify-center`}>
                       {conversation.unread}
                     </div>
                   )}
@@ -143,10 +120,10 @@ const Messages = () => {
                 <div className="flex-1">
                   <div className="flex justify-between">
                     <h3 className="font-semibold">{conversation.name}</h3>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{conversation.time}</span>
+                    <span className="text-xs text-muted-foreground">{conversation.time}</span>
                   </div>
                   <div className="flex items-center">
-                    <p className={`text-sm ${conversation.unread > 0 ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
+                    <p className={`text-sm ${conversation.unread > 0 ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
                       {conversation.lastMessage}
                     </p>
                     {conversation.unread > 0 && (
