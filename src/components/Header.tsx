@@ -90,10 +90,30 @@ const Header = () => {
       }
     }
   };
+  
+  // Get notification badge color based on theme
+  const getNotificationBadgeColor = () => {
+    if (theme.startsWith('dark-')) {
+      switch(theme) {
+        case 'dark-blue': return 'bg-blue-600';
+        case 'dark-emerald': return 'bg-emerald-600';
+        case 'dark-rose': return 'bg-rose-600';
+        default: return 'bg-blue-600';
+      }
+    } else {
+      switch(theme) {
+        case 'purple': return 'bg-purple-600';
+        case 'oceanic': return 'bg-blue-600';
+        case 'sunset': return 'bg-orange-600';
+        default: return 'bg-blue-600';
+      }
+    }
+  };
 
   const { bgClass, borderClass } = getHeaderStyles();
   const hiThereColor = getHiThereColor();
   const buttonGradient = getButtonGradient();
+  const notificationBadgeColor = getNotificationBadgeColor();
 
   if (!isHomePage) {
     return null;
@@ -117,7 +137,7 @@ const Header = () => {
           <div className="flex items-center">
             <button className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
               <Bell className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
+              <span className={`absolute -top-1 -right-1 w-4 h-4 ${notificationBadgeColor} text-white text-xs rounded-full flex items-center justify-center`}>
                 3
               </span>
             </button>
