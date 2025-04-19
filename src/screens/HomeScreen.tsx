@@ -2,10 +2,10 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { Calendar, MessageSquare, Search, Star } from 'lucide-react-native';
 import { useThemeStore } from '../lib/theme';
-import Card from '../components/common/Card';
+import { Card } from '../components/ui/card';
 
 const categories = [
   {
@@ -57,8 +57,12 @@ const topProfessionals = [
 
 const HomeScreen = () => {
   const { theme } = useThemeStore();
-  const router = useRouter();
+  const navigation = useNavigation();
   const isDark = theme.startsWith('dark');
+
+  const navigateTo = (path) => {
+    navigation.navigate(path);
+  };
 
   return (
     <SafeAreaView style={[
@@ -85,7 +89,7 @@ const HomeScreen = () => {
           
           <Pressable 
             style={styles.searchButton}
-            onPress={() => router.push('/search')}
+            onPress={() => navigateTo('search')}
           >
             <Search size={24} color={isDark ? '#ffffff' : '#000000'} />
           </Pressable>
@@ -111,7 +115,7 @@ const HomeScreen = () => {
                   styles.categoryCard,
                   { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
                 ]}
-                onPress={() => router.push(`/category/${category.id}`)}
+                onPress={() => navigateTo(`category/${category.id}`)}
               >
                 <Text style={styles.categoryIcon}>{category.icon}</Text>
                 <Text style={[
@@ -138,7 +142,7 @@ const HomeScreen = () => {
               styles.quickActionButton,
               { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
             ]}
-            onPress={() => router.push('/bookings')}
+            onPress={() => navigateTo('bookings')}
           >
             <Calendar size={24} color="#4FC3F7" />
             <Text style={[
@@ -154,7 +158,7 @@ const HomeScreen = () => {
               styles.quickActionButton,
               { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
             ]}
-            onPress={() => router.push('/messages')}
+            onPress={() => navigateTo('messages')}
           >
             <MessageSquare size={24} color="#81C784" />
             <Text style={[
@@ -181,7 +185,7 @@ const HomeScreen = () => {
                 styles.professionalCard,
                 { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
               ]}
-              onPress={() => router.push(`/professional/${professional.id}`)}
+              onPress={() => navigateTo(`professional/${professional.id}`)}
             >
               <Image
                 source={{ uri: professional.image }}
