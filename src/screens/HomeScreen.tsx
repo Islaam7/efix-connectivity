@@ -2,10 +2,24 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Calendar, MessageSquare, Search, Star } from 'lucide-react-native';
 import { useThemeStore } from '../lib/theme';
 import { Card } from '../components/ui/card';
+
+// Define the navigation parameter list type
+type RootStackParamList = {
+  search: undefined;
+  bookings: undefined;
+  messages: undefined;
+  'category/repairs': undefined;
+  'category/cleaning': undefined;
+  'category/plumbing': undefined;
+  'category/electrical': undefined;
+  'professional/1': undefined;
+  'professional/2': undefined;
+  [key: string]: undefined;
+};
 
 const categories = [
   {
@@ -57,10 +71,10 @@ const topProfessionals = [
 
 const HomeScreen = () => {
   const { theme } = useThemeStore();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const isDark = theme.startsWith('dark');
 
-  const navigateTo = (path) => {
+  const navigateTo = (path: keyof RootStackParamList) => {
     navigation.navigate(path);
   };
 
@@ -115,7 +129,7 @@ const HomeScreen = () => {
                   styles.categoryCard,
                   { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
                 ]}
-                onPress={() => navigateTo(`category/${category.id}`)}
+                onPress={() => navigateTo(`category/${category.id}` as keyof RootStackParamList)}
               >
                 <Text style={styles.categoryIcon}>{category.icon}</Text>
                 <Text style={[
@@ -185,7 +199,7 @@ const HomeScreen = () => {
                 styles.professionalCard,
                 { backgroundColor: isDark ? '#2a2a2a' : '#ffffff' }
               ]}
-              onPress={() => navigateTo(`professional/${professional.id}`)}
+              onPress={() => navigateTo(`professional/${professional.id}` as keyof RootStackParamList)}
             >
               <Image
                 source={{ uri: professional.image }}
