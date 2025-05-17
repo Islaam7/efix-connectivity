@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -75,11 +74,8 @@ const HomeScreen = () => {
   const isDark = theme.startsWith('dark');
 
   const navigateTo = (path: keyof RootStackParamList) => {
-    // Fix the navigation call to use object format instead of array format
-    navigation.navigate({
-      name: path,
-      params: undefined
-    });
+    // Fixed navigation call - don't wrap the object in an array
+    navigation.navigate(path);
   };
 
   return (
