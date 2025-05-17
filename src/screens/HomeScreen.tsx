@@ -75,7 +75,11 @@ const HomeScreen = () => {
   const isDark = theme.startsWith('dark');
 
   const navigateTo = (path: keyof RootStackParamList) => {
-    navigation.navigate(path);
+    // Fix the navigation call to use object format instead of array format
+    navigation.navigate({
+      name: path,
+      params: undefined
+    });
   };
 
   return (
