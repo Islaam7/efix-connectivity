@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -74,8 +75,8 @@ const HomeScreen = () => {
   const isDark = theme.startsWith('dark');
 
   const navigateTo = (path: keyof RootStackParamList) => {
-    // Fixed navigation call - don't wrap the object in an array
-    navigation.navigate(path);
+    // Use the correct form for react-navigation v7 navigate method
+    navigation.navigate(path as string);
   };
 
   return (
