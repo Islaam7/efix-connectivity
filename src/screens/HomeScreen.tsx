@@ -75,8 +75,10 @@ const HomeScreen = () => {
   const isDark = theme.startsWith('dark');
 
   const navigateTo = (path: keyof RootStackParamList) => {
-    // Use the correct form for react-navigation v7 navigate method
-    navigation.navigate(path as string);
+    navigation.navigate({
+      name: path as string,
+      params: undefined
+    });
   };
 
   return (
