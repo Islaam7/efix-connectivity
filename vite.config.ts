@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: ['react-native-svg']
+      external: ['react-native-svg', 'react-native']
     }
   }
 }));
