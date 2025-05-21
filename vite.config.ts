@@ -22,7 +22,17 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: ['react-native-svg', 'react-native']
+      external: [
+        'react-native-svg',
+        'react-native',
+        '@react-navigation/native',
+        '@react-navigation/native-stack',
+        '@react-navigation/bottom-tabs',
+        'react-native-safe-area-context',
+        'expo-status-bar',
+        'expo-router',
+        '@react-native-async-storage/async-storage'
+      ]
     }
   }
 }));
