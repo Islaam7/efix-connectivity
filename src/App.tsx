@@ -22,6 +22,7 @@ function TabNavigator() {
   
   return (
     <Tab.Navigator
+      id="MainTab"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.startsWith('dark') ? '#1a1a1a' : '#ffffff',
@@ -73,6 +74,7 @@ export default function App() {
             name="MainTabs"
             component={TabNavigator}
             options={{ headerShown: false }}
+            id="MainScreen"
           />
         </Stack.Navigator>
       </NavigationContainer>
