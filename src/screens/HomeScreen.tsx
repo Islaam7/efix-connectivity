@@ -75,10 +75,8 @@ const HomeScreen = () => {
   const isDark = theme.startsWith('dark');
 
   const navigateTo = (path: keyof RootStackParamList) => {
-    navigation.navigate({
-      name: path as string,
-      params: undefined
-    });
+    // استخدام الصيغة المتوافقة مع React Navigation v6
+    navigation.navigate(path as string);
   };
 
   return (
