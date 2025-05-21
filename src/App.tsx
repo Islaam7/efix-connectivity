@@ -15,13 +15,13 @@ const Navigation = () => {
   const { theme } = useThemeStore();
   const isDark = theme.startsWith('dark');
   
-  const navStyle = {
+  const navStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-around',
     padding: '1rem',
     backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
     borderTop: `1px solid ${isDark ? '#333333' : '#e5e5e5'}`,
-    position: 'fixed',
+    position: 'fixed' as const,
     bottom: 0,
     left: 0,
     right: 0,
