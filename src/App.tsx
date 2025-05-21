@@ -22,7 +22,6 @@ function TabNavigator() {
   
   return (
     <Tab.Navigator
-      id="main-tabs"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.startsWith('dark') ? '#1a1a1a' : '#ffffff',
@@ -69,7 +68,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <StatusBar style="auto" />
-        <Stack.Navigator id="main-stack">
+        <Stack.Navigator>
           <Stack.Screen
             name="MainTabs"
             component={TabNavigator}
