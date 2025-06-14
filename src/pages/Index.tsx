@@ -11,6 +11,7 @@ import ChatbotButton from '@/components/ChatbotButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
 import { useNavigate } from 'react-router-dom';
+import { serviceCategories } from '@/data/mockData';
 
 const Index = () => {
   const { user } = useAuth();
@@ -30,7 +31,21 @@ const Index = () => {
       
       <main className="container mx-auto max-w-lg pb-16">
         <HeroSection />
-        <ServiceCategory />
+        
+        <div className="py-4 space-y-4">
+          <h2 className="text-xl font-semibold mb-4">Our Services</h2>
+          {serviceCategories.map((category) => (
+            <ServiceCategory
+              key={category.id}
+              id={category.id}
+              title={category.title}
+              icon={category.icon}
+              description={category.description}
+              color={category.color}
+            />
+          ))}
+        </div>
+        
         <HowItWorks />
         <ProfessionalList />
         <FaultDetection />
