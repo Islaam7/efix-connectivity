@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
@@ -6,10 +5,16 @@ import { Settings, LogOut, CreditCard, Bell, Shield, HelpCircle, Star, Award, Gi
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useThemeStore, ThemeColor } from '@/lib/theme';
+import { useAuth } from '@/contexts/AuthContext';
+import { useProfile } from '@/hooks/useProfile';
+import { useNavigate } from 'react-router-dom';
 import ThemeSelector from '@/components/ThemeSelector';
 
 const Profile = () => {
   const { theme, setTheme } = useThemeStore();
+  const { user, signOut } = useAuth();
+  const { profile } = useProfile();
+  const navigate = useNavigate();
 
   // Initialize theme on component mount
   useEffect(() => {
@@ -17,8 +22,14 @@ const Profile = () => {
     setTheme(savedTheme);
   }, [setTheme]);
 
-  const handleLogout = () => {
-    toast.info('Logged out successfully');
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast.success('Logged out successfully');
+      navigate('/auth');
+    } catch (error) {
+      toast.error('Failed to log out');
+    }
   };
 
   return (
@@ -28,15 +39,21 @@ const Profile = () => {
       <main className="container mx-auto max-w-lg">
         <div className="p-4">
           <div className="flex flex-col items-center pt-4 pb-8 animate-fade-in">
-            <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-primary/20 hover-lift">
-              <img 
-                src="https://randomuser.me/api/portraits/men/32.jpg" 
-                alt="User profile" 
-                className="w-full h-full object-cover"
-              />
+            <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-primary/20 hover-lift bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              {profile?.avatar_url ? (
+                <img 
+                  src={profile.avatar_url} 
+                  alt="User profile" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="text-2xl font-bold text-gray-500 dark:text-gray-400">
+                  {profile?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                </div>
+              )}
             </div>
-            <h1 className="text-xl font-bold">John Doe</h1>
-            <p className="text-gray-500 dark:text-gray-400">john.doe@example.com</p>
+            <h1 className="text-xl font-bold">{profile?.full_name || 'User'}</h1>
+            <p className="text-gray-500 dark:text-gray-400">{user?.email}</p>
             <div className="flex items-center mt-2">
               <div className="button-gradient rounded-full px-4 py-2 flex items-center shadow-md hover-lift">
                 <span className="text-white font-semibold mr-2">120</span>
@@ -44,7 +61,11 @@ const Profile = () => {
               </div>
               <span className="ml-2 text-sm text-gray-500">Reward Points</span>
             </div>
-            <Button variant="outline" className="mt-3 hover-lift">
+            <Button 
+              variant="outline" 
+              className="mt-3 hover-lift"
+              onClick={() => navigate('/onboarding')}
+            >
               Edit Profile
             </Button>
           </div>
