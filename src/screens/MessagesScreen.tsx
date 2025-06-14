@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeStore } from '../lib/theme';
 
 const MessagesScreen = () => {
@@ -9,29 +7,14 @@ const MessagesScreen = () => {
   const isDark = theme.startsWith('dark');
 
   return (
-    <SafeAreaView style={[
-      styles.container,
-      { backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }
-    ]}>
-      <Text style={[
-        styles.title,
-        { color: isDark ? '#ffffff' : '#000000' }
-      ]}>
-        Messages
-      </Text>
-    </SafeAreaView>
+    <div className={`min-h-screen ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+      <div className="p-5">
+        <h1 className="text-2xl font-bold">
+          Messages
+        </h1>
+      </div>
+    </div>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
 
 export default MessagesScreen;
