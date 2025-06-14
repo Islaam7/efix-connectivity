@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { View, Text } from '../lib/rncompat';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeStore } from '../lib/theme';
 
 const MessagesScreen = () => {
@@ -8,18 +9,29 @@ const MessagesScreen = () => {
   const isDark = theme.startsWith('dark');
 
   return (
-    <View style={{ 
-      flex: 1, 
-      padding: 16,
-      backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
-      color: isDark ? '#ffffff' : '#000000'
-    }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
-        Messages Screen
+    <SafeAreaView style={[
+      styles.container,
+      { backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }
+    ]}>
+      <Text style={[
+        styles.title,
+        { color: isDark ? '#ffffff' : '#000000' }
+      ]}>
+        Messages
       </Text>
-      <Text>Your messages will appear here.</Text>
-    </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});
 
 export default MessagesScreen;
